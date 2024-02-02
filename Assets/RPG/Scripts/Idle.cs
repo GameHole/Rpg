@@ -2,22 +2,13 @@
 
 namespace RPG
 {
-    public class ToMoves
+    public class ToMoves : Transation
     {
-        private Character character;
-
-        public void SetCharacter(Character character)
-        {
-            this.character = character;
-        }
-        public bool isMove()
+        public override bool isVailed()
         {
             return character.input.moveDir != UnityEngine.Vector2.zero;
         }
-        public void ToMove()
-        {
-            character.SwitchTo(character.move);
-        }
+        protected override AAction getWitchToAction() => character.move;
     }
     public class Idle: AAction
     {
@@ -37,14 +28,14 @@ namespace RPG
 
         public override void Run()
         {
-            if (toSkills.isAttact())
+            if (toSkills.isVailed())
             {
-                toSkills.ToSkill();
+                toSkills.Switch();
                 return;
             }
-            if (toMoves.isMove())
+            if (toMoves.isVailed())
             {
-                toMoves.ToMove();
+                toMoves.Switch();
             }
         }
         public override void Start()

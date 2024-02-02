@@ -2,41 +2,43 @@
 
 namespace RPG
 {
-    public class ToIdles
+    public abstract class Transation
     {
-        private Character character;
+        protected Character character;
 
         public void SetCharacter(Character character)
         {
             this.character = character;
         }
-        public bool isStop()
+        public abstract bool isVailed();
+        public virtual void Switch()
+        {
+            character.SwitchTo(getWitchToAction());
+        }
+        protected abstract AAction getWitchToAction();
+    }
+    public class ToIdles: Transation
+    {
+        public override bool isVailed()
         {
             return character.input.moveDir == Vector2.zero;
         }
-        public void ToIdle()
-        {
-            character.SwitchTo(character.idle);
-        }
+        protected override AAction getWitchToAction() => character.idle;
     }
-    public class ToSkills
+    public class ToSkills: Transation
     {
         public AAction _this;
-        private Character character;
-
-        public void SetCharacter(Character character)
-        {
-            this.character = character;
-        }
-        public bool isAttact()
+        public override bool isVailed()
         {
             return character.input.isAttact;
         }
-        public void ToSkill()
+        public override void Switch()
         {
-            character.SwitchTo(character.skill);
+            base.Switch();
             character.basicAction = _this;
         }
+
+        protected override AAction getWitchToAction() => character.skill;
     }
     public class Move : AAction
     {
@@ -57,14 +59,14 @@ namespace RPG
         {
             var dir = character.input.moveDir;
             character.position += dir;
-            if (toSkills.isAttact())
+            if (toSkills.isVailed())
             {
-                toSkills.ToSkill();
+                toSkills.Switch();
                 return;
             }
-            if (toIdles.isStop())
+            if (toIdles.isVailed())
             {
-                toIdles.ToIdle();
+                toIdles.Switch();
             }
 
         }

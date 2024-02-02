@@ -1,23 +1,13 @@
 ﻿namespace RPG
 {
-    public class ToBasics
+    public class ToBasics : Transation
     {
         public Skill skill;
-        private Character character;
-        public void SetCharacter(Character character)
-        {
-            this.character = character;
-        }
-        public void ToBasic()
-        {
-            character.SwitchTo(character.basicAction);
-        }
-
-
-        public bool isFinish()
+        public override bool isVailed()
         {
             return skill.runTime > skill.duration;
         }
+        protected override AAction getWitchToAction() => character.basicAction;
     }
     public class Skill : AAction
     {
@@ -42,9 +32,9 @@
         public override void Run()
         {
             runTime += character.deltaTime.value;
-            if (basics.isFinish())
+            if (basics.isVailed())
             {
-                basics.ToBasic();
+                basics.Switch();
             }
         }
 
