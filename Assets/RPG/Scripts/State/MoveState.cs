@@ -9,13 +9,10 @@ namespace RPG
             transations.Add(new TransitionToSkill { _this = this });
             transations.Add(new TransitionToIdle());
         }
-        public override void Run()
+        protected override void RunInternal()
         {
-            var dir = character.input.moveDir;
-            character.position += dir;
-            base.Run();
+            character.position += character.input.moveDir;
         }
-
         public override void Start()
         {
             character.animator.Move();

@@ -15,10 +15,9 @@ namespace RPG
             character.animator.Attact();
             runTime = 0;
         }
-        public override void Run()
+        protected override void RunInternal()
         {
             runTime += character.deltaTime.value;
-            base.Run();
         }
     }
 }
