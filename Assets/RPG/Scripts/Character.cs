@@ -7,27 +7,27 @@ namespace RPG
         public IInput input { get; }
         public AAnimator animator { get; }
         public DeltaTime deltaTime { get; }
-        public Idle idle { get; }
-        public Move move { get; }
-        public Skill skill { get; }
-        public AAction runingAction { get; set; }
+        public IdleState idle { get; }
+        public MoveState move { get; }
+        public SkillState skill { get; }
+        public State runingAction { get; set; }
         public Vector2 position { get; set; }
-        public AAction basicAction { get; set; }
+        public State basicAction { get; set; }
 
         public Character(IInput input, AAnimator anim, DeltaTime deltaTime)
         {
             this.input = input;
             animator = anim;
             this.deltaTime = deltaTime;
-            idle = new Idle();
-            move = new Move();
-            skill = new Skill();
+            idle = new IdleState();
+            move = new MoveState();
+            skill = new SkillState();
             idle.SetCharacter(this);
             move.SetCharacter(this);
             skill.SetCharacter(this);
             SwitchTo(idle);
         }
-        public void SwitchTo(AAction idle)
+        public void SwitchTo(State idle)
         {
             idle.Start();
             idle.Run();

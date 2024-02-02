@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace UnitTest
 {
-    internal class LogAction : AAction
+    internal class LogAction : State
     {
         public string log;
         public override void Run()

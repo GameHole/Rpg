@@ -47,7 +47,7 @@ namespace UnitTest
         [Test]
         public void testDefault()
         {
-            Assert.AreEqual(typeof(Idle), cha.runingAction.GetType());
+            Assert.AreEqual(typeof(IdleState), cha.runingAction.GetType());
             var log = new LogAction();
             cha.runingAction = log;
             cha.Update();
@@ -62,11 +62,11 @@ namespace UnitTest
             {
                 cha.Update();
                 AssertEx.AreEqualVec2(new Vector2(0.1f*(i+1), 0), cha.position);
-                Assert.AreEqual(typeof(Move), cha.runingAction.GetType());
+                Assert.AreEqual(typeof(MoveState), cha.runingAction.GetType());
             }
             input.moveDir = new Vector2(0, 0);
             cha.Update();
-            Assert.AreEqual(typeof(Idle), cha.runingAction.GetType());
+            Assert.AreEqual(typeof(IdleState), cha.runingAction.GetType());
         }
         [Test]
         public void testIdleToAttact()
@@ -77,12 +77,12 @@ namespace UnitTest
                 input.isAttact = true;
                 cha.Update();
                 Assert.AreEqual("atk", anim.log);
-                Assert.AreEqual(typeof(Skill), cha.runingAction.GetType());
+                Assert.AreEqual(typeof(SkillState), cha.runingAction.GetType());
                 input.isAttact = false;
                 cha.Update();
-                Assert.AreEqual(typeof(Skill), cha.runingAction.GetType());
+                Assert.AreEqual(typeof(SkillState), cha.runingAction.GetType());
                 cha.Update();
-                Assert.AreEqual(typeof(Idle), cha.runingAction.GetType());
+                Assert.AreEqual(typeof(IdleState), cha.runingAction.GetType());
             }
         }
         [Test]
@@ -92,7 +92,7 @@ namespace UnitTest
             input.isAttact = true;
             cha.Update();
             Assert.AreEqual("idleatk", anim.log);
-            Assert.AreEqual(typeof(Skill), cha.runingAction.GetType());
+            Assert.AreEqual(typeof(SkillState), cha.runingAction.GetType());
         }
         [Test]
         public void testMoveToAttact()
@@ -106,12 +106,12 @@ namespace UnitTest
                 input.isAttact = true;
                 cha.Update();
                 Assert.AreEqual("atk", anim.log);
-                Assert.AreEqual(typeof(Skill), cha.runingAction.GetType());
+                Assert.AreEqual(typeof(SkillState), cha.runingAction.GetType());
                 input.isAttact = false;
                 cha.Update();
-                Assert.AreEqual(typeof(Skill), cha.runingAction.GetType());
+                Assert.AreEqual(typeof(SkillState), cha.runingAction.GetType());
                 cha.Update();
-                Assert.AreEqual(typeof(Move), cha.runingAction.GetType());
+                Assert.AreEqual(typeof(MoveState), cha.runingAction.GetType());
             }
         }
         [Test]
@@ -123,7 +123,7 @@ namespace UnitTest
             input.isAttact = true;
             input.moveDir = new Vector2(0, 0);
             cha.Update();
-            Assert.AreEqual(typeof(Skill), cha.runingAction.GetType());
+            Assert.AreEqual(typeof(SkillState), cha.runingAction.GetType());
             Assert.AreEqual("atk", anim.log);
         }
     }

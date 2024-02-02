@@ -1,11 +1,12 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace RPG
 {
-    public abstract class AAction
+    public class State
     {
         protected Character character;
-        protected List<Transation> transations = new List<Transation>();
+        protected List<Transition> transations = new List<Transition>();
         public void SetCharacter(Character character)
         {
             this.character = character;
@@ -17,6 +18,7 @@ namespace RPG
         public virtual void Start() { }
         public virtual void Run()
         {
+            RunInternal();
             foreach (var item in transations)
             {
                 if (item.isVailed())
@@ -26,5 +28,6 @@ namespace RPG
                 }
             }
         }
+        protected virtual void RunInternal() { }
     }
 }

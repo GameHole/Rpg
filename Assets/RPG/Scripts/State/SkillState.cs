@@ -2,22 +2,13 @@
 
 namespace RPG
 {
-    public class ToBasics : Transation
-    {
-        public Skill skill;
-        public override bool isVailed()
-        {
-            return skill.runTime > skill.duration;
-        }
-        protected override AAction getWitchToAction() => character.basicAction;
-    }
-    public class Skill : AAction
+    public class SkillState : State
     {
         public float duration;
         public float runTime;
-        public Skill()
+        public SkillState()
         {
-            transations.Add(new ToBasics { skill = this });
+            transations.Add(new TransitionToBasic { skill = this });
         }
         public override void Start()
         {
