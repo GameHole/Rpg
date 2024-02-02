@@ -13,6 +13,12 @@ namespace RPG
 
         public override void Run()
         {
+            if (character.input.isAttact)
+            {
+                character.SwitchTo(character.skill);
+                character.basicAction = this;
+                return;
+            }
             if (character.input.moveDir != UnityEngine.Vector2.zero)
             {
                 character.SwitchTo(character.move);
@@ -21,7 +27,7 @@ namespace RPG
 
         public override void Start()
         {
-            character.Anim.Idle();
+            character.animator.Idle();
         }
     }
 }

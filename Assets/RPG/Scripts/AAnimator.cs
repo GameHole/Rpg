@@ -4,5 +4,6 @@
     {
         public abstract void Idle();
         public abstract void Move();
+        public abstract void Attact();
     }
 }

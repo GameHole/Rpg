@@ -10,6 +10,7 @@ namespace UnitTest
     {
         private TestingAnimator anim;
         private TestingActionInput input;
+        private TestDeltaTime deltaTime;
         private Character cha;
 
         [SetUp]
@@ -17,7 +18,10 @@ namespace UnitTest
         {
             anim = new TestingAnimator();
             input = new TestingActionInput();
-            cha = new Character(input, anim);
+            deltaTime = new TestDeltaTime();
+            cha = new Character(input, anim, deltaTime);
+            cha.skill.duration = 1;
+            deltaTime._value = 0.5f;
         }
         [Test]
         public void testAnimator()
@@ -65,15 +69,62 @@ namespace UnitTest
             Assert.AreEqual(typeof(Idle), cha.runingAction.GetType());
         }
         [Test]
-        public void testAttact()
+        public void testIdleToAttact()
         {
-            deltaTime = 1;
-            input.isAttact = true;
-            for (int i = 0; i < 3; i++)
+            for (int i = 0; i < 2; i++)
             {
+                anim.log = null;
+                input.isAttact = true;
                 cha.Update();
-                Assert.AreEqual("atki", anim.log);
+                Assert.AreEqual("atk", anim.log);
+                Assert.AreEqual(typeof(Skill), cha.runingAction.GetType());
+                input.isAttact = false;
+                cha.Update();
+                Assert.AreEqual(typeof(Skill), cha.runingAction.GetType());
+                cha.Update();
+                Assert.AreEqual(typeof(Idle), cha.runingAction.GetType());
             }
+        }
+        [Test]
+        public void testIdleToAttactForMove()
+        {
+            input.moveDir = new Vector2(1, 0);
+            input.isAttact = true;
+            cha.Update();
+            Assert.AreEqual("idleatk", anim.log);
+            Assert.AreEqual(typeof(Skill), cha.runingAction.GetType());
+        }
+        [Test]
+        public void testMoveToAttact()
+        {
+            input.moveDir = new Vector2(1, 0);
+            cha.Update();
+            for (int i = 0; i < 2; i++)
+            {
+                anim.log = null;
+                cha.Update();
+                input.isAttact = true;
+                cha.Update();
+                Assert.AreEqual("atk", anim.log);
+                Assert.AreEqual(typeof(Skill), cha.runingAction.GetType());
+                input.isAttact = false;
+                cha.Update();
+                Assert.AreEqual(typeof(Skill), cha.runingAction.GetType());
+                cha.Update();
+                Assert.AreEqual(typeof(Move), cha.runingAction.GetType());
+            }
+        }
+        [Test]
+        public void testStopToAttact()
+        {
+            input.moveDir = new Vector2(1, 0);
+            cha.Update();
+            anim.log = null;
+            input.isAttact = true;
+            input.moveDir = new Vector2(0, 0);
+            cha.Update();
+            Assert.AreEqual(typeof(Skill), cha.runingAction.GetType());
+            Assert.AreEqual("atk", anim.log);
         }
     }
 }

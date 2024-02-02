@@ -15,5 +15,10 @@ namespace UnitTest
         {
             log += "move";
         }
+
+        public override void Attact()
+        {
+            log += "atk";
+        }
     }
 }
