@@ -10,7 +10,7 @@ namespace RPG
         public IdleState idle { get; }
         public MoveState move { get; }
         public SkillState skill { get; }
-        public State runingAction { get; set; }
+        public State runingState { get; set; }
         public Vector2 position { get; set; }
         public State basicAction { get; set; }
 
@@ -27,15 +27,15 @@ namespace RPG
             skill.SetCharacter(this);
             SwitchTo(idle);
         }
-        public void SwitchTo(State idle)
+        public void SwitchTo(State state)
         {
-            idle.Start();
-            idle.Run();
-            runingAction = idle;
+            state.Start();
+            state.Run();
+            runingState = state;
         }
         public void Update()
         {
-            runingAction.Run();
+            runingState.Run();
         }
     }
 }

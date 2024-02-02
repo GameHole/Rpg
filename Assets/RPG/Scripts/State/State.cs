@@ -6,7 +6,7 @@ namespace RPG
     public class State
     {
         protected Character character;
-        protected List<Transition> transations = new List<Transition>();
+        public List<Transition> transations { get; } = new List<Transition>();
         public void SetCharacter(Character character)
         {
             this.character = character;
@@ -19,6 +19,11 @@ namespace RPG
         public virtual void Run()
         {
             RunInternal();
+            Transition();
+        }
+
+        protected virtual void Transition()
+        {
             foreach (var item in transations)
             {
                 if (item.isVailed())
@@ -28,6 +33,7 @@ namespace RPG
                 }
             }
         }
+
         protected virtual void RunInternal() { }
     }
 }
