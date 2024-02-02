@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
 
 namespace RPG
 {
@@ -42,33 +43,16 @@ namespace RPG
     }
     public class Move : AAction
     {
-        private Character character;
-        private ToIdles toIdles = new ToIdles();
-        private ToSkills toSkills = new ToSkills();
         public Move()
         {
-            toSkills._this = this;
-        }
-        public void SetCharacter(Character character)
-        {
-            this.character = character;
-            toIdles.SetCharacter(character);
-            toSkills.SetCharacter(character);
+            transations.Add(new ToSkills { _this = this });
+            transations.Add(new ToIdles());
         }
         public override void Run()
         {
             var dir = character.input.moveDir;
             character.position += dir;
-            if (toSkills.isVailed())
-            {
-                toSkills.Switch();
-                return;
-            }
-            if (toIdles.isVailed())
-            {
-                toIdles.Switch();
-            }
-
+            base.Run();
         }
 
         public override void Start()

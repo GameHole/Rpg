@@ -1,4 +1,6 @@
-﻿namespace RPG
+﻿using System.Collections.Generic;
+
+namespace RPG
 {
     public class ToBasics : Transation
     {
@@ -11,18 +13,11 @@
     }
     public class Skill : AAction
     {
-        private Character character;
-        private ToBasics basics = new ToBasics();
         public float duration;
         public float runTime;
         public Skill()
         {
-            basics.skill = this;
-        }
-        public void SetCharacter(Character character)
-        {
-            this.character = character;
-            basics.SetCharacter(character);
+            transations.Add(new ToBasics { skill = this });
         }
         public override void Start()
         {
@@ -32,12 +27,7 @@
         public override void Run()
         {
             runTime += character.deltaTime.value;
-            if (basics.isVailed())
-            {
-                basics.Switch();
-            }
+            base.Run();
         }
-
-       
     }
 }

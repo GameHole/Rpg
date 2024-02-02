@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace RPG
 {
@@ -12,31 +13,10 @@ namespace RPG
     }
     public class Idle: AAction
     {
-        private Character character;
-        private ToSkills toSkills = new ToSkills();
-        private ToMoves toMoves = new ToMoves();
         public Idle()
         {
-            toSkills._this = this;
-        }
-        public void SetCharacter(Character character)
-        {
-            this.character = character;
-            toSkills.SetCharacter(character);
-            toMoves.SetCharacter(character);
-        }
-
-        public override void Run()
-        {
-            if (toSkills.isVailed())
-            {
-                toSkills.Switch();
-                return;
-            }
-            if (toMoves.isVailed())
-            {
-                toMoves.Switch();
-            }
+            transations.Add(new ToSkills { _this = this });
+            transations.Add(new ToMoves());
         }
         public override void Start()
         {
