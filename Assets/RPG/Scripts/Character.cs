@@ -19,9 +19,12 @@ namespace RPG
             this.input = input;
             animator = anim;
             this.deltaTime = deltaTime;
-            idle = new Idle(this);
-            move = new Move(this);
-            skill = new Skill(this);
+            idle = new Idle();
+            move = new Move();
+            skill = new Skill();
+            idle.SetCharacter(this);
+            move.SetCharacter(this);
+            skill.SetCharacter(this);
             SwitchTo(idle);
         }
         public void SwitchTo(AAction idle)

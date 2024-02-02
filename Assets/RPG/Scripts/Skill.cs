@@ -5,7 +5,7 @@
         private Character character;
         public float duration;
         private float runTime;
-        public Skill(Character character)
+        public void SetCharacter(Character character)
         {
             this.character = character;
         }

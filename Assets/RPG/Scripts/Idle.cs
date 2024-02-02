@@ -6,7 +6,7 @@ namespace RPG
     {
         private Character character;
 
-        public Idle(Character character)
+        public void SetCharacter(Character character)
         {
             this.character = character;
         }
