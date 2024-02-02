@@ -2,7 +2,7 @@
 
 namespace RPG
 {
-    public class Idle: AAction
+    public class ToMoves
     {
         private Character character;
 
@@ -10,21 +10,43 @@ namespace RPG
         {
             this.character = character;
         }
+        public bool isMove()
+        {
+            return character.input.moveDir != UnityEngine.Vector2.zero;
+        }
+        public void ToMove()
+        {
+            character.SwitchTo(character.move);
+        }
+    }
+    public class Idle: AAction
+    {
+        private Character character;
+        private ToSkills toSkills = new ToSkills();
+        private ToMoves toMoves = new ToMoves();
+        public Idle()
+        {
+            toSkills._this = this;
+        }
+        public void SetCharacter(Character character)
+        {
+            this.character = character;
+            toSkills.SetCharacter(character);
+            toMoves.SetCharacter(character);
+        }
 
         public override void Run()
         {
-            if (character.input.isAttact)
+            if (toSkills.isAttact())
             {
-                character.SwitchTo(character.skill);
-                character.basicAction = this;
+                toSkills.ToSkill();
                 return;
             }
-            if (character.input.moveDir != UnityEngine.Vector2.zero)
+            if (toMoves.isMove())
             {
-                character.SwitchTo(character.move);
+                toMoves.ToMove();
             }
         }
-
         public override void Start()
         {
             character.animator.Idle();

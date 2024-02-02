@@ -2,7 +2,7 @@
 
 namespace RPG
 {
-    public class Move : AAction
+    public class ToIdles
     {
         private Character character;
 
@@ -10,21 +10,63 @@ namespace RPG
         {
             this.character = character;
         }
+        public bool isStop()
+        {
+            return character.input.moveDir == Vector2.zero;
+        }
+        public void ToIdle()
+        {
+            character.SwitchTo(character.idle);
+        }
+    }
+    public class ToSkills
+    {
+        public AAction _this;
+        private Character character;
+
+        public void SetCharacter(Character character)
+        {
+            this.character = character;
+        }
+        public bool isAttact()
+        {
+            return character.input.isAttact;
+        }
+        public void ToSkill()
+        {
+            character.SwitchTo(character.skill);
+            character.basicAction = _this;
+        }
+    }
+    public class Move : AAction
+    {
+        private Character character;
+        private ToIdles toIdles = new ToIdles();
+        private ToSkills toSkills = new ToSkills();
+        public Move()
+        {
+            toSkills._this = this;
+        }
+        public void SetCharacter(Character character)
+        {
+            this.character = character;
+            toIdles.SetCharacter(character);
+            toSkills.SetCharacter(character);
+        }
         public override void Run()
         {
             var dir = character.input.moveDir;
             character.position += dir;
-            if (character.input.isAttact)
+            if (toSkills.isAttact())
             {
-                character.SwitchTo(character.skill);
-                character.basicAction = this;
+                toSkills.ToSkill();
                 return;
             }
-            if (dir == Vector2.zero)
+            if (toIdles.isStop())
             {
-                character.SwitchTo(character.idle);
+                toIdles.ToIdle();
             }
-           
+
         }
 
         public override void Start()

@@ -1,13 +1,38 @@
 ﻿namespace RPG
 {
-    public class Skill : AAction
+    public class ToBasics
     {
+        public Skill skill;
         private Character character;
-        public float duration;
-        private float runTime;
         public void SetCharacter(Character character)
         {
             this.character = character;
+        }
+        public void ToBasic()
+        {
+            character.SwitchTo(character.basicAction);
+        }
+
+
+        public bool isFinish()
+        {
+            return skill.runTime > skill.duration;
+        }
+    }
+    public class Skill : AAction
+    {
+        private Character character;
+        private ToBasics basics = new ToBasics();
+        public float duration;
+        public float runTime;
+        public Skill()
+        {
+            basics.skill = this;
+        }
+        public void SetCharacter(Character character)
+        {
+            this.character = character;
+            basics.SetCharacter(character);
         }
         public override void Start()
         {
@@ -17,10 +42,12 @@
         public override void Run()
         {
             runTime += character.deltaTime.value;
-            if (runTime > duration)
+            if (basics.isFinish())
             {
-                character.SwitchTo(character.basicAction);
+                basics.ToBasic();
             }
         }
+
+       
     }
 }
