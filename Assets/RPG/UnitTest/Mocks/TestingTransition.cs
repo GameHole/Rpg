@@ -15,7 +15,7 @@ namespace UnitTest
         public override void SetCharacter(Character character)
         {
             base.SetCharacter(character);
-            character.SetState(stateName, state);
+            character.matchine.SetState(stateName, state);
         }
         protected override Enum stateName => (StateName)0;
     }

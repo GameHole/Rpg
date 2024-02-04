@@ -9,10 +9,10 @@ namespace RPG
         {
             return character.input.isAttact;
         }
-        protected override State getWitchToAction()
+        public override void Switch()
         {
-            character.SetState(StateName.Basic, _this);
-            return base.getWitchToAction();
+            character.matchine.SetState(StateName.Basic, _this);
+            base.Switch();
         }
         protected override Enum stateName => StateName.Skill;
     }

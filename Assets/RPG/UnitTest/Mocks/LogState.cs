@@ -10,6 +10,7 @@ namespace UnitTest
     internal class LogState:State
     {
         internal string log;
+
         public override void Start()
         {
             log += "start ";

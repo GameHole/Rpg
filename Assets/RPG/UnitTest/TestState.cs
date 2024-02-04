@@ -33,7 +33,7 @@ namespace UnitTest
             state.TestTransition();
             Assert.AreEqual("start run transition ", logtran.state.log);
             logtran.state.log = null;
-            Assert.AreSame(logtran.state, cha.runingState);
+            Assert.AreSame(logtran.state, cha.matchine.runingState);
             var logtran1 = new TestingTransition() { _isVailed = true };
             logtran1.SetCharacter(cha);
             state.transations.Insert(0, logtran1);

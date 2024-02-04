@@ -8,25 +8,53 @@ namespace RPG
     {
         Idle,Move,Skill,Basic
     }
-    public class Character 
+    public class StateMatchine
     {
-        //system
-        public IInput input { get; }
-        public DeltaTime deltaTime { get; }
-        //control
+        public State runingState { get; set; }
+
         private Dictionary<Enum, State> stateMap { get; } = new Dictionary<Enum, State>();
         public State GetState(Enum name)
         {
             return stateMap[name];
         }
-        public void SetState(Enum name,State state)
+        public T GetState<T>(Enum name) where T : State
+        {
+            return GetState(name) as T;
+        }
+        public void SetState(Enum name, State state)
         {
             stateMap[name] = state;
         }
-        public SkillState skill => GetState(StateName.Skill) as SkillState;
-        public State runingState { get; set; }
-        public State basicAction { get => GetState(StateName.Basic); set => SetState(StateName.Basic, value); }
-        //propertity
+        public void SetCharacter(Character character)
+        {
+            foreach (var item in stateMap.Values)
+            {
+                item.SetCharacter(character);
+            }
+        }
+        public void SwitchTo(Enum name)
+        {
+            SwitchTo(GetState(name));
+        }
+        public void SwitchTo(State state)
+        {
+            state.Start();
+            state.Run();
+            runingState = state;
+        }
+
+        public void Update()
+        {
+            runingState.Run();
+        }
+    }
+    public class Character 
+    {
+        //system
+        public IInput input { get; }
+        public DeltaTime deltaTime { get; }
+        public StateMatchine matchine { get; } = new StateMatchine();
+
         public AAnimator animator { get; }
         public Vector2 position { get; set; }
 
@@ -36,6 +64,11 @@ namespace RPG
             animator = anim;
             this.deltaTime = deltaTime;
 
+            BuildStateMatchine();
+        }
+
+        private void BuildStateMatchine()
+        {
             var idle = new IdleState();
             idle.transations.Add(new TransitionToSkill { _this = idle });
             idle.transations.Add(new TransitionToMove());
@@ -44,24 +77,15 @@ namespace RPG
             move.transations.Add(new TransitionToIdle());
             var skill = new SkillState();
             skill.transations.Add(new TransitionToBasic { skill = skill });
-            SetState(StateName.Idle, idle);
-            SetState(StateName.Move, move);
-            SetState(StateName.Skill, skill);
-            foreach (var item in stateMap.Values)
-            {
-                item.SetCharacter(this);
-            }
-            SwitchTo(idle);
-        }
-        public void SwitchTo(State state)
-        {
-            state.Start();
-            state.Run();
-            runingState = state;
+            matchine.SetState(StateName.Idle, idle);
+            matchine.SetState(StateName.Move, move);
+            matchine.SetState(StateName.Skill, skill);
+            matchine.SetCharacter(this);
+            matchine.SwitchTo(idle);
         }
         public void Update()
         {
-            runingState.Run();
+            matchine.Update();
         }
     }
 }

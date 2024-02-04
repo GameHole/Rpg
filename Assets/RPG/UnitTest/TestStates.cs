@@ -27,20 +27,12 @@ namespace UnitTest
             deltaTime._value = 0.5f;
         }
         [Test]
-        public void testSwitchTo()
-        {
-            var state = new LogState();
-            cha.SwitchTo(state);
-            Assert.AreEqual("start run transition ",state.log);
-            Assert.AreSame(cha.runingState, state);
-        }
-        [Test]
         public void testTransition()
         {
             var test = new TestingTransition();
             test.SetCharacter(cha);
             test.Switch();
-            Assert.AreSame(test.state, cha.runingState);
+            Assert.AreSame(test.state, cha.matchine.runingState);
         }
         [Test]
         public void Move()
@@ -90,7 +82,7 @@ namespace UnitTest
                 Assert.AreEqual(i == 0, tran.isVailed());
             }
             tran.Switch();
-            Assert.AreSame(cha.runingState, cha.GetState(StateName.Idle));
+            Assert.AreSame(cha.matchine.runingState, cha.matchine.GetState(StateName.Idle));
         }
         [Test]
         public void testTransitionToMove()
@@ -103,7 +95,7 @@ namespace UnitTest
                 Assert.AreEqual(i != 0, tran.isVailed());
             }
             tran.Switch();
-            Assert.AreSame(cha.runingState, cha.GetState(StateName.Move));
+            Assert.AreSame(cha.matchine.runingState, cha.matchine.GetState(StateName.Move));
         }
         [Test]
         public void testTransitionToSkill()
@@ -118,14 +110,14 @@ namespace UnitTest
                 Assert.AreEqual(i == 0, tran.isVailed());
             }
             tran.Switch();
-            Assert.AreSame(cha.runingState, cha.GetState(StateName.Skill));
-            Assert.AreSame(state, cha.basicAction);
+            Assert.AreSame(cha.matchine.runingState, cha.matchine.GetState(StateName.Skill));
+            Assert.AreSame(state, cha.matchine.GetState(StateName.Basic));
         }
         [Test]
         public void testTransitionToBasic()
         {
             var logState = new LogState();
-            cha.basicAction = logState;
+            cha.matchine.SetState(StateName.Basic, logState);
             var state = new SkillState();
             state.SetCharacter(cha);
             state.duration = 1;
@@ -138,7 +130,7 @@ namespace UnitTest
                 Assert.AreEqual(i == 2, tran.isVailed());
             }
             tran.Switch();
-            Assert.AreSame(cha.runingState, logState);
+            Assert.AreSame(cha.matchine.runingState, logState);
         }
     }
 }

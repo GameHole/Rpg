@@ -20,7 +20,7 @@ namespace UnitTest
             input = new TestingActionInput();
             deltaTime = new TestDeltaTime();
             cha = new Character(input, anim, deltaTime);
-            cha.skill.duration = 1;
+            cha.matchine.GetState<SkillState>(StateName.Skill).duration = 1;
             deltaTime._value = 0.5f;
         }
         [Test]
@@ -47,9 +47,9 @@ namespace UnitTest
         [Test]
         public void testDefault()
         {
-            Assert.AreEqual(typeof(IdleState), cha.runingState.GetType());
+            Assert.AreEqual(typeof(IdleState), cha.matchine.runingState.GetType());
             var log = new LogAction();
-            cha.runingState = log;
+            cha.matchine.runingState = log;
             cha.Update();
             Assert.AreEqual("run", log.log);
         }
@@ -62,11 +62,11 @@ namespace UnitTest
             {
                 cha.Update();
                 AssertEx.AreEqualVec2(new Vector2(0.1f*0.5f*(i+1), 0), cha.position);
-                Assert.AreEqual(typeof(MoveState), cha.runingState.GetType());
+                Assert.AreEqual(typeof(MoveState), cha.matchine.runingState.GetType());
             }
             input.moveDir = new Vector2(0, 0);
             cha.Update();
-            Assert.AreEqual(typeof(IdleState), cha.runingState.GetType());
+            Assert.AreEqual(typeof(IdleState), cha.matchine.runingState.GetType());
         }
         [Test]
         public void testIdleToAttact()
@@ -77,12 +77,12 @@ namespace UnitTest
                 input.isAttact = true;
                 cha.Update();
                 Assert.AreEqual("atk", anim.log);
-                Assert.AreEqual(typeof(SkillState), cha.runingState.GetType());
+                Assert.AreEqual(typeof(SkillState), cha.matchine.runingState.GetType());
                 input.isAttact = false;
                 cha.Update();
-                Assert.AreEqual(typeof(SkillState), cha.runingState.GetType());
+                Assert.AreEqual(typeof(SkillState), cha.matchine.runingState.GetType());
                 cha.Update();
-                Assert.AreEqual(typeof(IdleState), cha.runingState.GetType());
+                Assert.AreEqual(typeof(IdleState), cha.matchine.runingState.GetType());
             }
         }
         [Test]
@@ -92,7 +92,7 @@ namespace UnitTest
             input.isAttact = true;
             cha.Update();
             Assert.AreEqual("idleatk", anim.log);
-            Assert.AreEqual(typeof(SkillState), cha.runingState.GetType());
+            Assert.AreEqual(typeof(SkillState), cha.matchine.runingState.GetType());
         }
         [Test]
         public void testMoveToAttact()
@@ -106,12 +106,12 @@ namespace UnitTest
                 input.isAttact = true;
                 cha.Update();
                 Assert.AreEqual("atk", anim.log);
-                Assert.AreEqual(typeof(SkillState), cha.runingState.GetType());
+                Assert.AreEqual(typeof(SkillState), cha.matchine.runingState.GetType());
                 input.isAttact = false;
                 cha.Update();
-                Assert.AreEqual(typeof(SkillState), cha.runingState.GetType());
+                Assert.AreEqual(typeof(SkillState), cha.matchine.runingState.GetType());
                 cha.Update();
-                Assert.AreEqual(typeof(MoveState), cha.runingState.GetType());
+                Assert.AreEqual(typeof(MoveState), cha.matchine.runingState.GetType());
             }
         }
         [Test]
@@ -123,7 +123,7 @@ namespace UnitTest
             input.isAttact = true;
             input.moveDir = new Vector2(0, 0);
             cha.Update();
-            Assert.AreEqual(typeof(SkillState), cha.runingState.GetType());
+            Assert.AreEqual(typeof(SkillState), cha.matchine.runingState.GetType());
             Assert.AreEqual("atk", anim.log);
         }
     }
