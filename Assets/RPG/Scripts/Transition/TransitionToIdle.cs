@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 namespace RPG
 {
@@ -8,6 +9,6 @@ namespace RPG
         {
             return character.input.moveDir == Vector2.zero;
         }
-        protected override State getWitchToAction() => character.idle;
+        protected override Enum stateName => StateName.Idle;
     }
 }

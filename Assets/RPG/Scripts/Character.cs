@@ -1,35 +1,56 @@
 using UnityEngine;
+using System.Collections.Generic;
+using System;
 
 namespace RPG
 {
+    public enum StateName
+    {
+        Idle,Move,Skill,Basic
+    }
     public class Character 
     {
+        //system
         public IInput input { get; }
-        public AAnimator animator { get; }
         public DeltaTime deltaTime { get; }
-        public State idle { get; set; }
-        public State move { get; }
-        public SkillState skill { get; }
+        //control
+        private Dictionary<Enum, State> stateMap { get; } = new Dictionary<Enum, State>();
+        public State GetState(Enum name)
+        {
+            return stateMap[name];
+        }
+        public void SetState(Enum name,State state)
+        {
+            stateMap[name] = state;
+        }
+        public SkillState skill => GetState(StateName.Skill) as SkillState;
         public State runingState { get; set; }
+        public State basicAction { get => GetState(StateName.Basic); set => SetState(StateName.Basic, value); }
+        //propertity
+        public AAnimator animator { get; }
         public Vector2 position { get; set; }
-        public State basicAction { get; set; }
 
         public Character(IInput input, AAnimator anim, DeltaTime deltaTime)
         {
             this.input = input;
             animator = anim;
             this.deltaTime = deltaTime;
-            idle = new IdleState();
+
+            var idle = new IdleState();
             idle.transations.Add(new TransitionToSkill { _this = idle });
             idle.transations.Add(new TransitionToMove());
-            move = new MoveState();
+            var move = new MoveState();
             move.transations.Add(new TransitionToSkill { _this = move });
             move.transations.Add(new TransitionToIdle());
-            skill = new SkillState();
+            var skill = new SkillState();
             skill.transations.Add(new TransitionToBasic { skill = skill });
-            idle.SetCharacter(this);
-            move.SetCharacter(this);
-            skill.SetCharacter(this);
+            SetState(StateName.Idle, idle);
+            SetState(StateName.Move, move);
+            SetState(StateName.Skill, skill);
+            foreach (var item in stateMap.Values)
+            {
+                item.SetCharacter(this);
+            }
             SwitchTo(idle);
         }
         public void SwitchTo(State state)

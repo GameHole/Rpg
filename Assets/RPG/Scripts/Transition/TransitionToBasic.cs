@@ -1,4 +1,6 @@
-﻿namespace RPG
+﻿using System;
+
+namespace RPG
 {
     public class TransitionToBasic : Transition
     {
@@ -7,6 +9,6 @@
         {
             return skill.runTime > skill.duration;
         }
-        protected override State getWitchToAction() => character.basicAction;
+        protected override Enum stateName => StateName.Basic;
     }
 }

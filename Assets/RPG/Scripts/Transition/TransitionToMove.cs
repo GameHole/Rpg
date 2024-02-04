@@ -1,4 +1,6 @@
-﻿namespace RPG
+﻿using System;
+
+namespace RPG
 {
     public class TransitionToMove : Transition
     {
@@ -6,6 +8,6 @@
         {
             return character.input.moveDir != UnityEngine.Vector2.zero;
         }
-        protected override State getWitchToAction() => character.move;
+        protected override Enum stateName => StateName.Move;
     }
 }

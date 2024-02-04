@@ -1,4 +1,6 @@
-﻿namespace RPG
+﻿using System;
+
+namespace RPG
 {
     public class TransitionToSkill: Transition
     {
@@ -9,8 +11,9 @@
         }
         protected override State getWitchToAction()
         {
-            character.basicAction = _this;
-            return character.skill;
+            character.SetState(StateName.Basic, _this);
+            return base.getWitchToAction();
         }
+        protected override Enum stateName => StateName.Skill;
     }
 }

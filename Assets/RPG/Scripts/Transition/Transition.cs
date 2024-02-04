@@ -1,10 +1,13 @@
-﻿namespace RPG
+﻿using System;
+
+namespace RPG
 {
     public abstract class Transition
     {
+        public State transititeToState;
         public Character character { get; private set; }
 
-        public void SetCharacter(Character character)
+        public virtual void SetCharacter(Character character)
         {
             this.character = character;
         }
@@ -13,6 +16,7 @@
         {
             character.SwitchTo(getWitchToAction());
         }
-        protected abstract State getWitchToAction();
+        protected virtual State getWitchToAction() => character.GetState(stateName);
+        protected abstract Enum stateName { get; }
     }
 }

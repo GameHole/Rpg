@@ -12,10 +12,11 @@ namespace UnitTest
         public LogState state = new LogState();
         public bool _isVailed;
         public override bool isVailed() => _isVailed;
-
-        protected override State getWitchToAction()
+        public override void SetCharacter(Character character)
         {
-            return state;
+            base.SetCharacter(character);
+            character.SetState(stateName, state);
         }
+        protected override Enum stateName => (StateName)0;
     }
 }
