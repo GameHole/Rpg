@@ -61,7 +61,7 @@ namespace UnitTest
             for (int i = 0; i < 2; i++)
             {
                 cha.Update();
-                AssertEx.AreEqualVec2(new Vector2(0.1f*(i+1), 0), cha.position);
+                AssertEx.AreEqualVec2(new Vector2(0.1f*0.5f*(i+1), 0), cha.position);
                 Assert.AreEqual(typeof(MoveState), cha.runingState.GetType());
             }
             input.moveDir = new Vector2(0, 0);

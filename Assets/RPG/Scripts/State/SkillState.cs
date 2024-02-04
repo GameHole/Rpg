@@ -5,11 +5,7 @@ namespace RPG
     public class SkillState : State
     {
         public float duration;
-        public float runTime;
-        public SkillState()
-        {
-            transations.Add(new TransitionToBasic { skill = this });
-        }
+        public float runTime { get; private set; }
         public override void Start()
         {
             character.animator.Attact();

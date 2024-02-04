@@ -4,14 +4,9 @@ namespace RPG
 {
     public class MoveState : State
     {
-        public MoveState()
-        {
-            transations.Add(new TransitionToSkill { _this = this });
-            transations.Add(new TransitionToIdle());
-        }
         protected override void RunInternal()
         {
-            character.position += character.input.moveDir;
+            character.position += character.input.moveDir * character.deltaTime.value;
         }
         public override void Start()
         {

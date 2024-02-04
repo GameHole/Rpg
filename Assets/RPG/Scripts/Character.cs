@@ -20,8 +20,13 @@ namespace RPG
             animator = anim;
             this.deltaTime = deltaTime;
             idle = new IdleState();
+            idle.transations.Add(new TransitionToSkill { _this = idle });
+            idle.transations.Add(new TransitionToMove());
             move = new MoveState();
+            move.transations.Add(new TransitionToSkill { _this = move });
+            move.transations.Add(new TransitionToIdle());
             skill = new SkillState();
+            skill.transations.Add(new TransitionToBasic { skill = skill });
             idle.SetCharacter(this);
             move.SetCharacter(this);
             skill.SetCharacter(this);
