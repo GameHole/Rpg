@@ -19,7 +19,7 @@ namespace RPG
         {
             foreach (var item in transations)
             {
-                item.matchine = matchine;
+                item.SetMatchine(matchine);
             }
         }
         public virtual void Start() { }

@@ -45,10 +45,6 @@ namespace RPG
         {
             character.animator.Attact();
             index = 0;
-            foreach (var item in actions)
-            {
-                item.Reset();
-            }
             matchine = new StateMatchine();
             for (int i = 0; i < actions.Count; i++)
             {
@@ -57,26 +53,17 @@ namespace RPG
                 matchine.SetState((EnumName)i, state);
             }
             matchine.SetCharacter(character);
-            matchine.runingState=matchine.GetState((EnumName)0);
+            var first = matchine.GetState((EnumName)0);
+            first.Start();
+            matchine.runingState = first;
         }
-
-        
-
         protected override void RunInternal()
         {
             matchine.Update();
         }
-
-       
-
-        public bool isFinish()
+        public virtual bool isFinish()
         {
             return (matchine.runingState as ActionState).action.isFinish();
-        }
-
-        private bool isLastest()
-        {
-            return index >= actions.Count;
         }
     }
 }

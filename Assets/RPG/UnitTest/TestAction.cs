@@ -32,6 +32,13 @@ namespace UnitTest
             }
         }
         [Test]
+        public void testState()
+        {
+            Assert.AreEqual(typeof(IdleState), cha.matchine.GetState(StateName.Idle).GetType());
+            Assert.AreEqual(typeof(MoveState), cha.matchine.GetState(StateName.Move).GetType());
+            Assert.AreEqual(typeof(SkillState), cha.matchine.GetState(StateName.Skill).GetType());
+        }
+        [Test]
         public void testAnimator()
         {
             for (int i = 0; i < 2; i++)

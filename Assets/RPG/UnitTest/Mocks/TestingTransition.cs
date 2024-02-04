@@ -9,15 +9,16 @@ namespace UnitTest
 {
     internal class TestingTransition : Transition
     {
+        public Enum id = (StateName)0;
         public LogState state = new LogState();
         public bool _isVailed;
         public override bool isVailed() => _isVailed;
-        public override void SetCharacter(Character character)
+        public override void SetMatchine(StateMatchine matchine)
         {
-            base.SetCharacter(character);
-            character.matchine.SetState(stateName, state);
+            base.SetMatchine(matchine);
+            matchine.SetState(stateName, state);
         }
-        protected override Enum stateName => (StateName)0;
+        protected override Enum stateName => id;
 
     }
 }

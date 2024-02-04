@@ -4,13 +4,17 @@ namespace RPG
 {
     public abstract class Transition
     {
-        public StateMatchine matchine { get;set; }
+        public StateMatchine matchine { get; private set; }
 
         public Character character { get; private set; }
 
-        public virtual void SetCharacter(Character character)
+        public void SetCharacter(Character character)
         {
             this.character = character;
+        }
+        public virtual void SetMatchine(StateMatchine matchine)
+        {
+            this.matchine = matchine;
         }
         public virtual void Switch()
         {
