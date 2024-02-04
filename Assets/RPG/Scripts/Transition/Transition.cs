@@ -2,7 +2,7 @@
 {
     public abstract class Transition
     {
-        protected Character character;
+        public Character character { get; private set; }
 
         public void SetCharacter(Character character)
         {

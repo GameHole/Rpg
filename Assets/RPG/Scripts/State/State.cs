@@ -5,7 +5,7 @@ namespace RPG
 {
     public class State
     {
-        protected Character character;
+        public Character character { get; private set; }
         public List<Transition> transations { get; } = new List<Transition>();
         public void SetCharacter(Character character)
         {

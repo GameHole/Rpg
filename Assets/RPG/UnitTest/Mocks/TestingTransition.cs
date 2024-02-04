@@ -9,14 +9,13 @@ namespace UnitTest
 {
     internal class TestingTransition : Transition
     {
-        public override bool isVailed()
-        {
-            throw new NotImplementedException();
-        }
+        public LogState state = new LogState();
+        public bool _isVailed;
+        public override bool isVailed() => _isVailed;
 
         protected override State getWitchToAction()
         {
-            throw new NotImplementedException();
+            return state;
         }
     }
 }

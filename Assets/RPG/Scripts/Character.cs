@@ -7,8 +7,8 @@ namespace RPG
         public IInput input { get; }
         public AAnimator animator { get; }
         public DeltaTime deltaTime { get; }
-        public IdleState idle { get; }
-        public MoveState move { get; }
+        public State idle { get; set; }
+        public State move { get; }
         public SkillState skill { get; }
         public State runingState { get; set; }
         public Vector2 position { get; set; }

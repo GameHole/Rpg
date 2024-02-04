@@ -20,14 +20,25 @@ namespace UnitTest
         [Test]
         public void testTransition()
         {
-            var cha = new Character();
+            var cha = new Character(new TestingActionInput(),new TestingAnimator(),new TestDeltaTime());
             var logtran = new TestingTransition();
             var state = new LogState();
             state.transations.Add(logtran);
             state.SetCharacter(cha);
-            Assert.AreSame(logtran.charater, cha);
+            Assert.AreSame(cha,logtran.character);
+            Assert.AreSame(cha, state.character);
             state.TestTransition();
-            Assert.AreEqual("run transition ", state.log);
+            Assert.IsNull(logtran.state.log);
+            logtran._isVailed = true;
+            state.TestTransition();
+            Assert.AreEqual("start run transition ", logtran.state.log);
+            logtran.state.log = null;
+            Assert.AreSame(logtran.state, cha.runingState);
+            var logtran1 = new TestingTransition() { _isVailed = true };
+            logtran1.SetCharacter(cha);
+            state.transations.Insert(0, logtran1);
+            state.TestTransition();
+            Assert.IsNull(logtran.state.log);
         }
     }
 }
