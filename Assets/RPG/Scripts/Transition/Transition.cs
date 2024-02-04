@@ -4,6 +4,8 @@ namespace RPG
 {
     public abstract class Transition
     {
+        public StateMatchine matchine { get;set; }
+
         public Character character { get; private set; }
 
         public virtual void SetCharacter(Character character)
@@ -12,7 +14,7 @@ namespace RPG
         }
         public virtual void Switch()
         {
-            character.matchine.SwitchTo(stateName);
+            matchine.SwitchTo(stateName);
         }
         public abstract bool isVailed();
 

@@ -15,6 +15,13 @@ namespace RPG
                 item.SetCharacter(character);
             }
         }
+        public void SetMatchine(StateMatchine matchine)
+        {
+            foreach (var item in transations)
+            {
+                item.matchine = matchine;
+            }
+        }
         public virtual void Start() { }
         public virtual void Run()
         {

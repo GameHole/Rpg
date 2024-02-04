@@ -61,15 +61,20 @@ namespace UnitTest
         {
             var state = new SkillState();
             state.SetCharacter(cha);
+           
             state.Start();
-            Assert.AreEqual("atk", anim.log);
-            for (int i = 0; i < 2; i++)
+            Assert.AreEqual("atk0", anim.log);
+            for (int c = 0; c < 2; c++)
             {
                 state.Run();
-                Assert.AreEqual(0.5f*(i+1), state.runTime);
+                Assert.AreEqual(0.5f * (c + 1), state.runTime);
+                Assert.AreEqual(0, state.index);
             }
+            input.isAttact = false;
+            state.Run();
+            Assert.AreEqual(2, state.index);
             state.Start();
-            Assert.AreEqual(0, state.runTime);
+            Assert.AreEqual(0, state.index);
         }
         [Test]
         public void testTransitionToIdle()

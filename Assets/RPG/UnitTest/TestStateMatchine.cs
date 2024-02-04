@@ -28,7 +28,10 @@ namespace UnitTest
         [Test]
         public void testSetState()
         {
+            var tran = new TestingTransition();
+            state.transations.Add(tran);
             mat.SetState(TestName.name, state);
+            Assert.AreSame(mat, tran.matchine);
             Assert.AreSame(state, mat.GetState(TestName.name));
             Assert.AreSame(state, mat.GetState<LogState>(TestName.name));
         }

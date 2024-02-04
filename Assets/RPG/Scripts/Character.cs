@@ -24,6 +24,7 @@ namespace RPG
         public void SetState(Enum name, State state)
         {
             stateMap[name] = state;
+            state.SetMatchine(this);
         }
         public void SetCharacter(Character character)
         {
@@ -50,11 +51,9 @@ namespace RPG
     }
     public class Character 
     {
-        //system
         public IInput input { get; }
         public DeltaTime deltaTime { get; }
         public StateMatchine matchine { get; } = new StateMatchine();
-
         public AAnimator animator { get; }
         public Vector2 position { get; set; }
 

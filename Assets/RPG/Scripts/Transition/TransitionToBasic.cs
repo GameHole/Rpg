@@ -7,7 +7,7 @@ namespace RPG
         public SkillState skill;
         public override bool isVailed()
         {
-            return skill.runTime > skill.duration;
+            return skill.isFinish();
         }
         protected override Enum stateName => StateName.Basic;
     }

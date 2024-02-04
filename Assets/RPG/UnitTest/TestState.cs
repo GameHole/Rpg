@@ -10,33 +10,42 @@ namespace UnitTest
 {
     internal class TestState
     {
+        private TestingTransition logtran;
+        private LogState state;
+
+        [SetUp]
+        public void set()
+        {
+            logtran = new TestingTransition();
+            state = new LogState();
+            state.transations.Add(logtran);
+        }
         [Test]
         public void testRun()
         {
-            var state = new LogState();
             state.Run();
             Assert.AreEqual("run transition ", state.log);
+            var cha = new Character(new TestingActionInput(), new TestingAnimator(), new TestDeltaTime());
+            state.SetCharacter(cha);
+            Assert.AreSame(cha, logtran.character);
+            Assert.AreSame(cha, state.character);
         }
         [Test]
         public void testTransition()
         {
-            var cha = new Character(new TestingActionInput(),new TestingAnimator(),new TestDeltaTime());
-            var logtran = new TestingTransition();
-            var state = new LogState();
-            state.transations.Add(logtran);
-            state.SetCharacter(cha);
-            Assert.AreSame(cha,logtran.character);
-            Assert.AreSame(cha, state.character);
+            var mat = new StateMatchine();
+            state.SetMatchine(mat);
+            Assert.AreSame(mat, logtran.matchine);
             state.TestTransition();
             Assert.IsNull(logtran.state.log);
             logtran._isVailed = true;
             state.TestTransition();
             Assert.AreEqual("start run transition ", logtran.state.log);
             logtran.state.log = null;
-            Assert.AreSame(logtran.state, cha.matchine.runingState);
+            Assert.AreSame(logtran.state, mat.runingState);
             var logtran1 = new TestingTransition() { _isVailed = true };
-            logtran1.SetCharacter(cha);
             state.transations.Insert(0, logtran1);
+            state.SetMatchine(mat);
             state.TestTransition();
             Assert.IsNull(logtran.state.log);
         }

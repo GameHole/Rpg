@@ -18,5 +18,6 @@ namespace UnitTest
             character.matchine.SetState(stateName, state);
         }
         protected override Enum stateName => (StateName)0;
+
     }
 }

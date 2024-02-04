@@ -12,6 +12,7 @@ namespace UnitTest
         private TestingActionInput input;
         private TestDeltaTime deltaTime;
         private Character cha;
+        private SkillAction[] acts;
 
         [SetUp]
         public void set()
@@ -22,6 +23,13 @@ namespace UnitTest
             cha = new Character(input, anim, deltaTime);
             cha.matchine.GetState<SkillState>(StateName.Skill).duration = 1;
             deltaTime._value = 0.5f;
+            var state = cha.matchine.GetState<SkillState>(StateName.Skill);
+            acts = new SkillAction[2];
+            for (int i = 0; i < acts.Length; i++)
+            {
+                acts[i] = new SkillAction() { duration = 2 };
+                state.actions.Add(acts[i]);
+            }
         }
         [Test]
         public void testAnimator()
@@ -71,6 +79,7 @@ namespace UnitTest
         [Test]
         public void testIdleToAttact()
         {
+            acts[0].duration = 1.5f;
             for (int i = 0; i < 2; i++)
             {
                 anim.log = null;
@@ -97,6 +106,7 @@ namespace UnitTest
         [Test]
         public void testMoveToAttact()
         {
+            acts[0].duration = 1.5f;
             input.moveDir = new Vector2(1, 0);
             cha.Update();
             for (int i = 0; i < 2; i++)
@@ -124,7 +134,59 @@ namespace UnitTest
             input.moveDir = new Vector2(0, 0);
             cha.Update();
             Assert.AreEqual(typeof(SkillState), cha.matchine.runingState.GetType());
-            Assert.AreEqual("atk", anim.log);
+        }
+        [Test]
+        public void testSkillOnePass()
+        {
+            input.isAttact = true;
+            cha.Update();
+            input.isAttact = false;
+            for (int i = 0; i < 3; i++)
+            {
+                Assert.AreEqual((i + 1) * 0.5f, acts[0].runTime);
+                Assert.AreEqual(typeof(SkillState), cha.matchine.runingState.GetType());
+                cha.Update();
+                Assert.AreEqual(0, acts[1].runTime);
+            }
+            Assert.AreEqual(2, acts[0].runTime);
+            Assert.AreEqual(0, acts[1].runTime);
+            Assert.AreEqual(typeof(IdleState), cha.matchine.runingState.GetType());
+        }
+        [Test]
+        public void testSkillTwoPass()
+        {
+            input.isAttact = true;
+            cha.Update();
+            for (int i = 0; i < 3; i++)
+            {
+                cha.Update();
+            }
+            Assert.AreEqual(2, acts[0].runTime);
+            Assert.AreEqual(0, acts[1].runTime);
+            Assert.AreEqual(typeof(SkillState), cha.matchine.runingState.GetType());
+            for (int i = 0; i < 3; i++)
+            {
+                cha.Update();
+            }
+            input.isAttact = false;
+            cha.Update();
+            Assert.AreEqual(2, acts[1].runTime);
+            Assert.AreEqual(typeof(IdleState), cha.matchine.runingState.GetType());
+        }
+        [Test]
+        public void testSkillLoop()
+        {
+            input.isAttact = true;
+            for (int i = 0; i < 8; i++)
+            {
+                cha.Update();
+            }
+            Assert.AreEqual(typeof(SkillState), cha.matchine.runingState.GetType());
+            Assert.AreEqual(0, acts[0].runTime);
+            Assert.AreEqual(2, acts[1].runTime);
+            cha.Update();
+            Assert.AreEqual(0.5f, acts[0].runTime);
+            Assert.AreEqual(2, acts[1].runTime);
         }
     }
 }
