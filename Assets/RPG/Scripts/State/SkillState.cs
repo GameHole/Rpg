@@ -19,25 +19,18 @@ namespace RPG
     public class TransitionToNextSkill : Transition
     {
         public int id;
-        internal ActionState state;
+        internal SkillAction action;
 
         protected override Enum stateName => (EnumName)id;
 
         public override bool isVailed()
         {
-            return state.action.isFinish()&&character.input.isAttact;
+            return action.isFinish() && character.input.isAttact;
         }
-        public override void Switch()
-        {
-            var state = matchine.GetState(stateName);
-            state.Start();
-            matchine.runingState = state;
-        }
+        protected override void RunStateImd(State state) { }
     }
     public class SkillState : State
     {
-        public float duration;
-        public float runTime { get; private set; }
         public List<SkillAction> actions { get; } = new List<SkillAction>();
         public int index { get;private set; }
         private StateMatchine matchine;
@@ -49,13 +42,13 @@ namespace RPG
             for (int i = 0; i < actions.Count; i++)
             {
                 var state = new ActionState { action = actions[i] };
-                state.transations.Add(new TransitionToNextSkill { state=state, id = (i + 1) % actions.Count });
+                state.transations.Add(new TransitionToNextSkill { action= actions[i], id = (i + 1) % actions.Count });
                 matchine.SetState((EnumName)i, state);
             }
             matchine.SetCharacter(character);
-            var first = matchine.GetState((EnumName)0);
-            first.Start();
-            matchine.runingState = first;
+            var tran = new TransitionToNextSkill { id = 0 };
+            tran.SetMatchine(matchine);
+            tran.Switch();
         }
         protected override void RunInternal()
         {

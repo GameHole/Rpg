@@ -33,6 +33,12 @@ namespace RPG
                 item.SetCharacter(character);
             }
         }
+        public void SwitchToNotRun(Enum stateName)
+        {
+            var state = GetState(stateName);
+            state.Start();
+            runingState = state;
+        }
         public void SwitchTo(Enum name)
         {
             SwitchTo(GetState(name));
@@ -73,14 +79,15 @@ namespace RPG
             idle.transations.Add(new TransitionToMove());
             var move = new MoveState();
             move.transations.Add(new TransitionToSkill { _this = move });
-            move.transations.Add(new TransitionToIdle());
+            var toIdle = new TransitionToIdle();
+            move.transations.Add(toIdle);
             var skill = new SkillState();
             skill.transations.Add(new TransitionToBasic { skill = skill });
             matchine.SetState(StateName.Idle, idle);
             matchine.SetState(StateName.Move, move);
             matchine.SetState(StateName.Skill, skill);
             matchine.SetCharacter(this);
-            matchine.SwitchTo(idle);
+            toIdle.Switch();
         }
         public void Update()
         {

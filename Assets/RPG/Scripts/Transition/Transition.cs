@@ -18,8 +18,17 @@ namespace RPG
         }
         public virtual void Switch()
         {
-            matchine.SwitchTo(stateName);
+            var state = matchine.GetState(stateName);
+            state.Start();
+            RunStateImd(state);
+            matchine.runingState = state;
         }
+
+        protected virtual void RunStateImd(State state)
+        {
+            state.Run();
+        }
+
         public abstract bool isVailed();
 
         protected abstract Enum stateName { get; }
