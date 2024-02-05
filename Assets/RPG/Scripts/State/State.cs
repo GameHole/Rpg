@@ -5,6 +5,8 @@ namespace RPG
 {
     public class State
     {
+        protected StateMatchine stateMatchine;
+
         public Character character { get; private set; }
         public List<Transition> transations { get; } = new List<Transition>();
         public void SetCharacter(Character character)
@@ -17,6 +19,7 @@ namespace RPG
         }
         public void SetMatchine(StateMatchine matchine)
         {
+            this.stateMatchine = matchine;
             foreach (var item in transations)
             {
                 item.SetMatchine(matchine);
@@ -41,6 +44,6 @@ namespace RPG
             }
         }
 
-        protected virtual void RunInternal() { }
+        public virtual void RunInternal() { }
     }
 }

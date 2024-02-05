@@ -11,7 +11,7 @@ namespace RPG
         {
             action.Reset();
         }
-        protected override void RunInternal()
+        public override void RunInternal()
         {
             action.Update(character.deltaTime.value);
         }
@@ -50,7 +50,7 @@ namespace RPG
             tran.SetMatchine(matchine);
             tran.Switch();
         }
-        protected override void RunInternal()
+        public override void RunInternal()
         {
             matchine.Update();
         }

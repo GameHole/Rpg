@@ -15,7 +15,7 @@ namespace UnitTest
         {
             log += "start ";
         }
-        protected override void RunInternal()
+        public override void RunInternal()
         {
             log += "run ";
         }

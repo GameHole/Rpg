@@ -33,7 +33,7 @@ namespace UnitTest
                 Assert.AreEqual(i * 0.5f, acts[0].runTime);
                 Assert.IsFalse(skill.isFinish());
                 Assert.AreEqual(0, acts[1].runTime);
-                skill.Run();
+                skill.RunInternal();
             }
             Assert.AreEqual(2, acts[0].runTime);
             Assert.AreEqual(0, acts[1].runTime);
@@ -45,17 +45,17 @@ namespace UnitTest
             input.isAttact = true;
             for (int i = 0; i < 4; i++)
             {
-                skill.Run();
+                skill.RunInternal();
             }
             Assert.AreEqual(2, acts[0].runTime);
             Assert.AreEqual(0, acts[1].runTime);
             Assert.IsFalse(skill.isFinish());
             for (int i = 0; i < 3; i++)
             {
-                skill.Run();
+                skill.RunInternal();
             }
             input.isAttact = false;
-            skill.Run();
+            skill.RunInternal();
             Assert.AreEqual(2, acts[1].runTime);
             Assert.IsTrue(skill.isFinish());
         }
@@ -65,12 +65,12 @@ namespace UnitTest
             input.isAttact = true;
             for (int i = 0; i < 8; i++)
             {
-                skill.Run();
+                skill.RunInternal();
             }
             Assert.IsFalse(skill.isFinish());
             Assert.AreEqual(0, acts[0].runTime);
             Assert.AreEqual(2, acts[1].runTime);
-            skill.Run();
+            skill.RunInternal();
             Assert.AreEqual(0.5f, acts[0].runTime);
             Assert.AreEqual(2, acts[1].runTime);
             Assert.IsFalse(skill.isFinish());

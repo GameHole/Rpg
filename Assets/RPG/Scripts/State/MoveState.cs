@@ -4,7 +4,7 @@ namespace RPG
 {
     public class MoveState : State
     {
-        protected override void RunInternal()
+        public override void RunInternal()
         {
             character.position += character.input.moveDir * character.deltaTime.value;
         }
