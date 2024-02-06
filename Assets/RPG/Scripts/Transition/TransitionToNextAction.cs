@@ -2,16 +2,14 @@
 
 namespace RPG
 {
-    public class TransitionToNextAction : Transition
+    public class TransitionToNextAction : FinishTransition
     {
-        public int id;
-        public Timer action;
-
-        public override Enum stateName => (EnumName)id;
-
+        public TransitionToNextAction(int id, IFinisher finisher) : base(id.ToEnum(), finisher)
+        {
+        }
         public override bool isVailed()
         {
-            return action.isFinish() && character.input.isAttact;
+            return base.isVailed() && character.input.isAttact;
         }
         protected override void RunStateImd(State state) { }
     }

@@ -46,10 +46,8 @@ namespace UnitTest
         public void testTransitionNextAction()
         {
             var mat = new StateMatchine();
-            var tran = new TransitionToNextAction();
-            tran.id = 1;
-            var timer= new Timer { duration = 1 };
-            tran.action = timer;
+            var timer = new Timer { duration = 1 };
+            var tran = new TransitionToNextAction(1, timer);
             var log = new LogState();
             mat.SetState(1.ToEnum(), log);
             tran.SetCharacter(cha);
@@ -79,8 +77,8 @@ namespace UnitTest
                 Assert.AreSame(cha, state.character);
                 Assert.AreEqual(1, state.transations.Count);
                 var tran = (state.transations[0] as TransitionToNextAction);
-                Assert.AreEqual((i + 1) % acts.Length, tran.id);
-                Assert.AreSame(acts[i], tran.action);
+                Assert.AreEqual(((i + 1) % acts.Length).ToEnum(), tran.stateName);
+                Assert.AreSame(acts[i], tran.finisher);
             }
             Assert.AreSame(mat.runingState, mat.GetState(0.ToEnum()));
             skill.RunInternal();
