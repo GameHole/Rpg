@@ -25,5 +25,10 @@ namespace UnitTest
         {
             log += "hit";
         }
+
+        public override void Dead()
+        {
+            log += "dead";
+        }
     }
 }

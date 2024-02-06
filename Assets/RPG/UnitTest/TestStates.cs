@@ -161,7 +161,6 @@ namespace UnitTest
             mat.SetState(StateName.Skill,skill);
             var basic = new LogState();
             var tran = new TransitionToSkill();
-            tran._this = basic;
             tran.SetCharacter(cha);
             tran.SetMatchine(mat);
             for (int i = 0; i < 2; i++)
@@ -171,7 +170,26 @@ namespace UnitTest
             }
             tran.Switch();
             Assert.AreSame(mat.runingState, skill);
-            Assert.AreSame(basic, mat.GetState(StateName.Basic));
+        }
+        [Test]
+        public void testDeadState()
+        {
+            var state = new DeadState();
+            state.SetCharacter(cha);
+            state.Start();
+            Assert.AreEqual("dead", anim.log);
+        }
+        [Test]
+        public void testTransitionToDead()
+        {
+            var tran = new TransitionToDead();
+            tran.SetCharacter(cha);
+            Assert.AreEqual(StateName.Dead, tran.stateName);
+            for (int i = -1; i < 2; i++)
+            {
+                cha.hp = i;
+                Assert.AreEqual(i <= 0, tran.isVailed());
+            }
         }
     }
 }

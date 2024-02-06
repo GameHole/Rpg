@@ -5,8 +5,9 @@ namespace RPG
 {
     public enum StateName
     {
-        Idle,Move,Skill,Basic,
-        Hit
+        Idle,Move,Skill,
+        Hit,
+        Dead
     }
     public class Character 
     {
@@ -17,7 +18,7 @@ namespace RPG
         public Vector2 position { get; set; }
         public Hittable hittable { get; set; } = new Hittable();
         public int attact { get; set; }
-        public int hp { get; set; }
+        public int hp { get; set; } = 2;
         public int defense { get;set; }
         public Character(IInput input, AAnimator anim, DeltaTime deltaTime)
         {
