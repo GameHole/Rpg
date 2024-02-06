@@ -2,15 +2,12 @@
 
 namespace RPG
 {
-    public enum EnumName { }
     public class SkillState : State, IFinisher
     {
         public List<Timer> actions { get; } = new List<Timer>();
-        public int index { get;private set; }
         public StateMatchine matchine { get; private set; }
         public override void Start()
         {
-            index = 0;
             matchine = new StateMatchine();
             for (int i = 0; i < actions.Count; i++)
             {

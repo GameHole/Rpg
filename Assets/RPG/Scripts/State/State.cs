@@ -3,6 +3,7 @@ using System.Collections.Generic;
 
 namespace RPG
 {
+
     public abstract class State
     {
         protected StateMatchine stateMatchine;
@@ -46,6 +47,7 @@ namespace RPG
 
         public virtual void RunInternal() { }
     }
+    public enum EnumName { }
     public static class StateNameEx
     {
         public static EnumName ToEnum(this int i)
