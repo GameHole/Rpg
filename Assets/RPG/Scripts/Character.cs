@@ -16,6 +16,9 @@ namespace RPG
         public AAnimator animator { get; }
         public Vector2 position { get; set; }
         public Hittable hittable { get; set; } = new Hittable();
+        public int attact { get; set; }
+        public int hp { get; set; }
+        public int defense { get;set; }
         public Character(IInput input, AAnimator anim, DeltaTime deltaTime)
         {
             this.input = input;
@@ -27,9 +30,10 @@ namespace RPG
             matchine.Update();
         }
 
-        public void Hit(int v)
+        public virtual void Hit(int v)
         {
             hittable.Set();
+            hp -= v;
         }
     }
 }

@@ -43,6 +43,40 @@ namespace UnitTest
             Assert.AreEqual("atk1", anim.log);
         }
         [Test]
+        public void testHit()
+        {
+            cha.hp = 10;
+            cha.Hit(1);
+            Assert.AreEqual(9, cha.hp);
+        }
+        [Test]
+        public void testSkillHit()
+        {
+            var state = new SkillActionState();
+            state.SetCharacter(cha);
+            var timer = new Timer() { duration = 2 };
+            state.action = timer;
+            var filter = new TestingTargetFilter();
+            state.hitTime = 1;
+            state.targetFilter = filter;
+            for (int c = 0; c < 2; c++)
+            {
+                cha.attact = 10;
+                filter.target.hp = 10;
+                filter.target.defense = 1;
+                filter.target.log = null;
+                state.Start();
+                state.RunInternal();
+                Assert.IsNull(filter.target.log);
+                for (int i = 0; i < 4; i++)
+                {
+                    state.RunInternal();
+                    Assert.AreEqual("hit9", filter.target.log);
+                }
+            }
+           
+        }
+        [Test]
         public void testTransitionNextAction()
         {
             var mat = new StateMatchine();
