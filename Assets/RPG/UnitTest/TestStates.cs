@@ -74,13 +74,24 @@ namespace UnitTest
         public void testTransitionHitToIdle()
         {
             var timer = new Timer { duration=1};
-            var tran = new TransitionHitToIdle { timer = timer };
+            var tran = new FinishTransition(StateName.Idle, timer);
             Assert.AreEqual(StateName.Idle, tran.stateName);
             tran.SetCharacter(cha);
             for (int i = 0; i < 2; i++)
             {
                 timer.Update(0.5f);
                 Assert.AreEqual(i == 1, tran.isVailed());
+            }
+        }
+        [Test]
+        public void testTimer()
+        {
+            var timer = new Timer { duration = 1 };
+            for (int i = 0; i < 2; i++)
+            {
+                timer.Update(0.5f);
+                Assert.AreEqual(0.5 * (i + 1), timer.runTime);
+                Assert.AreEqual(i == 1, timer.isFinish());
             }
         }
         [Test]
@@ -144,19 +155,6 @@ namespace UnitTest
             tran.Switch();
             Assert.AreSame(mat.runingState, skill);
             Assert.AreSame(basic, mat.GetState(StateName.Basic));
-        }
-        [Test]
-        public void testTransitionToBasic()
-        {
-            var skill = new TestingSkillState();
-            var tran = new TransitionToBasic();
-            Assert.AreEqual(StateName.Basic, tran.stateName);
-            tran.skill = skill;
-            for (int i = 0; i < 2; i++)
-            {
-                skill._isFin = i == 0;
-                Assert.AreEqual(i == 0, tran.isVailed());
-            }
         }
     }
 }

@@ -29,7 +29,7 @@ namespace RPG
         }
         protected override void RunStateImd(State state) { }
     }
-    public class SkillState : State
+    public class SkillState : State, IFinisher
     {
         public List<Timer> actions { get; } = new List<Timer>();
         public int index { get;private set; }

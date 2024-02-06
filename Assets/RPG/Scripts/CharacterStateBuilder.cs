@@ -16,10 +16,10 @@ namespace RPG
             var toIdle = new TransitionToIdle();
             move.transations.Add(toIdle);
             var skill = new SkillState();
-            skill.transations.Add(new TransitionToBasic { skill = skill });
+            skill.transations.Add(new FinishTransition(StateName.Basic, skill));
             var hit = new HitState();
             hit.transations.Add(new TransitionToHit());
-            hit.transations.Add(new TransitionHitToIdle());
+            hit.transations.Add(new FinishTransition(StateName.Idle, hit.timer));
             matchine.SetState(StateName.Idle, idle);
             matchine.SetState(StateName.Move, move);
             matchine.SetState(StateName.Skill, skill);

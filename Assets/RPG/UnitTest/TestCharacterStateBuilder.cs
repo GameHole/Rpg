@@ -42,7 +42,9 @@ namespace UnitTest
         {
             var skill = matchine.GetState<SkillState>(StateName.Skill);
             Assert.AreEqual(1, skill.transations.Count);
-            Assert.AreSame(skill, (skill.transations[0] as TransitionToBasic).skill);
+            var finish = (skill.transations[0] as FinishTransition);
+            Assert.AreSame(skill, finish.finisher);
+            Assert.AreEqual(StateName.Basic, finish.stateName);
         }
         [Test]
         public void testHit()
@@ -50,7 +52,9 @@ namespace UnitTest
             var hit = matchine.GetState<HitState>(StateName.Hit);
             Assert.AreEqual(2, hit.transations.Count);
             Assert.AreEqual(typeof(TransitionToHit), hit.transations[0].GetType());
-            Assert.AreEqual(typeof(TransitionHitToIdle), hit.transations[1].GetType());
+            var finish = (hit.transations[1] as FinishTransition);
+            Assert.AreSame(hit.timer, finish.finisher);
+            Assert.AreEqual(StateName.Idle, finish.stateName);
         }
     }
 }

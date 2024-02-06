@@ -1,6 +1,6 @@
 ﻿namespace RPG
 {
-    public class Timer
+    public class Timer: IFinisher
     {
         public float runTime { get; set; }
         public float duration { get; set; }
