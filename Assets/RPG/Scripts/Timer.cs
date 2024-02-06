@@ -1,6 +1,6 @@
 ﻿namespace RPG
 {
-    public class SkillAction
+    public class Timer
     {
         public float runTime { get; set; }
         public float duration { get; set; }

@@ -4,11 +4,13 @@ namespace RPG
 {
     public class TransitionToHit : Transition
     {
-        public override Enum stateName => default;
+        public override Enum stateName => StateName.Hit;
 
         public override bool isVailed()
         {
-            return false;
+            bool ret = character.hittable.value;
+            character.hittable.Reset();
+            return ret;
         }
     }
 }

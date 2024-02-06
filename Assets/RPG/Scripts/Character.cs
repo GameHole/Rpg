@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 namespace RPG
@@ -14,7 +15,7 @@ namespace RPG
         public StateMatchine matchine { get; } = new StateMatchine();
         public AAnimator animator { get; }
         public Vector2 position { get; set; }
-
+        public Hittable hittable { get; set; } = new Hittable();
         public Character(IInput input, AAnimator anim, DeltaTime deltaTime)
         {
             this.input = input;
@@ -24,6 +25,11 @@ namespace RPG
         public void Update()
         {
             matchine.Update();
+        }
+
+        public void Hit(int v)
+        {
+            hittable.Set();
         }
     }
 }

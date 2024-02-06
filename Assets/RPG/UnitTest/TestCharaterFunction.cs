@@ -12,7 +12,7 @@ namespace UnitTest
         private TestingActionInput input;
         private TestDeltaTime deltaTime;
         private Character cha;
-        private SkillAction[] acts;
+        private Timer[] acts;
 
         [SetUp]
         public void set()
@@ -25,10 +25,10 @@ namespace UnitTest
             builder.Build(cha);
             deltaTime._value = 0.5f;
             var state = cha.matchine.GetState<SkillState>(StateName.Skill);
-            acts = new SkillAction[2];
+            acts = new Timer[2];
             for (int i = 0; i < acts.Length; i++)
             {
-                acts[i] = new SkillAction() { duration = 2 };
+                acts[i] = new Timer() { duration = 2 };
                 state.actions.Add(acts[i]);
             }
         }

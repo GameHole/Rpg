@@ -60,9 +60,50 @@ namespace UnitTest
             Assert.AreEqual("idle", anim.log);
         }
         [Test]
+        public void testHit()
+        {
+            var state = new HitState();
+            state.SetCharacter(cha);
+            state.RunInternal();
+            Assert.AreEqual(0.5f, state.timer.runTime);
+            state.Start();
+            Assert.AreEqual(0, state.timer.runTime);
+            Assert.AreEqual("hit", anim.log);
+        }
+        [Test]
+        public void testTransitionHitToIdle()
+        {
+            var timer = new Timer { duration=1};
+            var tran = new TransitionHitToIdle { timer = timer };
+            Assert.AreEqual(StateName.Idle, tran.stateName);
+            tran.SetCharacter(cha);
+            for (int i = 0; i < 2; i++)
+            {
+                timer.Update(0.5f);
+                Assert.AreEqual(i == 1, tran.isVailed());
+            }
+        }
+        [Test]
+        public void testTransitionToHit()
+        {
+            var tran = new TransitionToHit();
+            Assert.AreEqual(StateName.Hit, tran.stateName);
+            tran.SetCharacter(cha);
+            cha.Hit(1);
+            for (int i = 0; i < 2; i++)
+            {
+                Assert.AreEqual(i == 0, tran.isVailed());
+            }
+            cha.hittable = new Unhittable();
+            cha.Hit(1);
+            for (int i = 0; i < 2; i++)
+            {
+                Assert.IsFalse(tran.isVailed());
+            }
+        }
+        [Test]
         public void testTransitionToIdle()
         {
-            var mat = new StateMatchine();
             var tran = new TransitionToIdle();
             Assert.AreEqual(StateName.Idle, tran.stateName);
             tran.SetCharacter(cha);

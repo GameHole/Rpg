@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace RPG
 {
-    public class State
+    public abstract class State
     {
         protected StateMatchine stateMatchine;
 
@@ -25,7 +25,7 @@ namespace RPG
                 item.SetMatchine(matchine);
             }
         }
-        public virtual void Start() { }
+        public abstract void Start();
         public virtual void Run()
         {
             RunInternal();

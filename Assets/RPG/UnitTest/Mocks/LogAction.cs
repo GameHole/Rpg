@@ -14,5 +14,9 @@ namespace UnitTest
         {
             log += "run";
         }
+
+        public override void Start()
+        {
+        }
     }
 }

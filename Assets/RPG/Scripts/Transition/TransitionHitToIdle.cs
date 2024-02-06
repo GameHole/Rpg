@@ -4,11 +4,13 @@ namespace RPG
 {
     public class TransitionHitToIdle : Transition
     {
-        public override Enum stateName => default;
+        public Timer timer;
+
+        public override Enum stateName => StateName.Idle;
 
         public override bool isVailed()
         {
-            return false;
+            return timer.isFinish();
         }
     }
 }

@@ -6,7 +6,7 @@ namespace RPG
     public enum EnumName { }
     public class ActionState:State
     {
-        public SkillAction action;
+        public Timer action;
         public override void Start()
         {
             action.Reset();
@@ -19,7 +19,7 @@ namespace RPG
     public class TransitionToNextSkill : Transition
     {
         public int id;
-        internal SkillAction action;
+        internal Timer action;
 
         public override Enum stateName => (EnumName)id;
 
@@ -31,7 +31,7 @@ namespace RPG
     }
     public class SkillState : State
     {
-        public List<SkillAction> actions { get; } = new List<SkillAction>();
+        public List<Timer> actions { get; } = new List<Timer>();
         public int index { get;private set; }
         private StateMatchine matchine;
         public override void Start()

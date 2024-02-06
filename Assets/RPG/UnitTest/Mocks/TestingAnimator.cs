@@ -20,5 +20,10 @@ namespace UnitTest
         {
             log += "atk";
         }
+
+        public override void Hit()
+        {
+            log += "hit";
+        }
     }
 }

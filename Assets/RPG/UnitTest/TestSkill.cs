@@ -5,7 +5,7 @@ namespace UnitTest
 {
     internal class TestSkill
     {
-        private SkillAction[] acts;
+        private Timer[] acts;
         private SkillState skill;
         private TestingActionInput input;
 
@@ -16,10 +16,10 @@ namespace UnitTest
             var cha = new Character(input, new TestingAnimator(), new TestDeltaTime { _value=0.5f});
             skill = new SkillState();
             skill.SetCharacter(cha);
-            acts = new SkillAction[2];
+            acts = new Timer[2];
             for (int i = 0; i < acts.Length; i++)
             {
-                acts[i] = new SkillAction() { duration = 2 };
+                acts[i] = new Timer() { duration = 2 };
                 skill.actions.Add(acts[i]);
             }
             skill.Start();
