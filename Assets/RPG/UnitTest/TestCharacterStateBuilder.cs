@@ -41,10 +41,12 @@ namespace UnitTest
         public void testSkill()
         {
             var skill = matchine.GetState<SkillState>(StateName.Skill);
-            Assert.AreEqual(1, skill.transations.Count);
-            var finish = (skill.transations[0] as FinishTransition);
+            Assert.AreEqual(3, skill.transations.Count);
+            var finish = (skill.transations[0] as FinishTransitionBlocker);
             Assert.AreSame(skill, finish.finisher);
-            Assert.AreEqual(StateName.Basic, finish.stateName);
+            Assert.AreEqual(typeof(TransitionToMove), skill.transations[1].GetType());
+            Assert.AreEqual(typeof(TransitionToIdle), skill.transations[2].GetType());
+            
         }
         [Test]
         public void testHit()

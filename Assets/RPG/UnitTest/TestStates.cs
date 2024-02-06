@@ -37,6 +37,7 @@ namespace UnitTest
             Assert.AreSame(test.state, mat.runingState);
             Assert.AreSame(mat.runingState, mat.GetState(test.stateName));
         }
+
         [Test]
         public void Move()
         {
@@ -71,7 +72,23 @@ namespace UnitTest
             Assert.AreEqual("hit", anim.log);
         }
         [Test]
-        public void testTransitionHitToIdle()
+        public void testFinishTransitionBlocker()
+        {
+            var mat = new StateMatchine();
+            var timer = new Timer { duration = 1 };
+            var tran = new FinishTransitionBlocker(timer);
+            tran.SetCharacter(cha);
+            tran.SetMatchine(mat);
+            for (int i = 0; i < 2; i++)
+            {
+                timer.Update(0.5f);
+                Assert.AreEqual(i == 0, tran.isVailed());
+            }
+            tran.Switch();
+            Assert.IsNull(mat.runingState);
+        }
+        [Test]
+        public void testFinishTransition()
         {
             var timer = new Timer { duration=1};
             var tran = new FinishTransition(StateName.Idle, timer);

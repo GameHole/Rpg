@@ -16,7 +16,9 @@ namespace RPG
             var toIdle = new TransitionToIdle();
             move.transations.Add(toIdle);
             var skill = new SkillState();
-            skill.transations.Add(new FinishTransition(StateName.Basic, skill));
+            skill.transations.Add(new FinishTransitionBlocker(skill));
+            skill.transations.Add(new TransitionToMove());
+            skill.transations.Add(new TransitionToIdle());
             var hit = new HitState();
             hit.transations.Add(new TransitionToHit());
             hit.transations.Add(new FinishTransition(StateName.Idle, hit.timer));

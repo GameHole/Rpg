@@ -9,8 +9,10 @@ namespace RPG
     public class FinishTransition : Transition
     {
         public override Enum stateName => _stateName;
-        public IFinisher finisher;
+        public IFinisher finisher { get; }
+
         private Enum _stateName;
+
         public FinishTransition(Enum stateName,IFinisher finisher)
         {
             _stateName = stateName;
