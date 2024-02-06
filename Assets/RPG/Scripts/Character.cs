@@ -4,7 +4,8 @@ namespace RPG
 {
     public enum StateName
     {
-        Idle,Move,Skill,Basic
+        Idle,Move,Skill,Basic,
+        Hit
     }
     public class Character 
     {

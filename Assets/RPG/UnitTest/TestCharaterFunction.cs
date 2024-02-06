@@ -190,6 +190,11 @@ namespace UnitTest
             Assert.AreEqual(0.5f, acts[0].runTime);
             Assert.AreEqual(2, acts[1].runTime);
         }
+        [Test]
+        public void testHit()
+        {
+            Assert.Fail();
+        }
     }
 }
 

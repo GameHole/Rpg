@@ -24,9 +24,10 @@ namespace UnitTest
         public void testIdle()
         {
             var idle = matchine.GetState<IdleState>(StateName.Idle);
-            Assert.AreEqual(2, idle.transations.Count);
-            Assert.AreSame(idle, (idle.transations[0] as TransitionToSkill)._this);
-            Assert.AreEqual(typeof(TransitionToMove), idle.transations[1].GetType());
+            Assert.AreEqual(3, idle.transations.Count);
+            Assert.AreEqual(typeof(TransitionToHit), idle.transations[0].GetType());
+            Assert.AreSame(idle, (idle.transations[1] as TransitionToSkill)._this);
+            Assert.AreEqual(typeof(TransitionToMove), idle.transations[2].GetType());
         }
         [Test]
         public void testMove()
@@ -42,6 +43,14 @@ namespace UnitTest
             var skill = matchine.GetState<SkillState>(StateName.Skill);
             Assert.AreEqual(1, skill.transations.Count);
             Assert.AreSame(skill, (skill.transations[0] as TransitionToBasic).skill);
+        }
+        [Test]
+        public void testHit()
+        {
+            var hit = matchine.GetState<HitState>(StateName.Hit);
+            Assert.AreEqual(2, hit.transations.Count);
+            Assert.AreEqual(typeof(TransitionToHit), hit.transations[0].GetType());
+            Assert.AreEqual(typeof(TransitionHitToIdle), hit.transations[1].GetType());
         }
     }
 }

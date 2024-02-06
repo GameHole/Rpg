@@ -3,6 +3,16 @@ using System;
 
 namespace RPG
 {
+    [Serializable]
+    public class StateNameNotFoundException : Exception
+    {
+        public StateNameNotFoundException() { }
+        public StateNameNotFoundException(string message) : base(message) { }
+        public StateNameNotFoundException(string message, Exception inner) : base(message, inner) { }
+        protected StateNameNotFoundException(
+          System.Runtime.Serialization.SerializationInfo info,
+          System.Runtime.Serialization.StreamingContext context) : base(info, context) { }
+    }
     public class StateMatchine
     {
         public State runingState { get; set; }
@@ -10,7 +20,9 @@ namespace RPG
         private Dictionary<Enum, State> stateMap { get; } = new Dictionary<Enum, State>();
         public State GetState(Enum name)
         {
-            return stateMap[name];
+            if (!stateMap.TryGetValue(name, out var state))
+                throw new StateNameNotFoundException(name.ToString());
+            return state;
         }
         public T GetState<T>(Enum name) where T : State
         {
@@ -27,22 +39,6 @@ namespace RPG
             {
                 item.SetCharacter(character);
             }
-        }
-        public void SwitchToNotRun(Enum stateName)
-        {
-            var state = GetState(stateName);
-            state.Start();
-            runingState = state;
-        }
-        public void SwitchTo(Enum name)
-        {
-            SwitchTo(GetState(name));
-        }
-        public void SwitchTo(State state)
-        {
-            state.Start();
-            state.Run();
-            runingState = state;
         }
 
         public void Update()

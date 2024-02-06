@@ -23,7 +23,8 @@ namespace UnitTest
         [Test]
         public void testGetState()
         {
-            Assert.Throws<KeyNotFoundException>(() => mat.GetState(TestName.name));
+            var ex = Assert.Throws<StateNameNotFoundException>(() => mat.GetState(TestName.name));
+            Assert.AreEqual("name", ex.Message);
         }
         [Test]
         public void testSetState()
@@ -34,20 +35,6 @@ namespace UnitTest
             Assert.AreSame(mat, tran.matchine);
             Assert.AreSame(state, mat.GetState(TestName.name));
             Assert.AreSame(state, mat.GetState<LogState>(TestName.name));
-        }
-        [Test]
-        public void testSwitchTo()
-        {
-            mat.SwitchTo(state);
-            Assert.AreEqual("start run transition ", state.log);
-            Assert.AreSame(mat.runingState, state);
-        }
-        [Test]
-        public void testSwitchToByName()
-        {
-            mat.SetState(TestName.name, state);
-            mat.SwitchTo(TestName.name);
-            Assert.AreSame(mat.runingState, state);
         }
         [Test]
         public void testUpdate()
