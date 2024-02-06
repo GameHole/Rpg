@@ -89,7 +89,7 @@ namespace UnitTest
                 anim.log = null;
                 input.isAttact = true;
                 cha.Update();
-                Assert.AreEqual("atk", anim.log);
+                Assert.AreEqual("atk0", anim.log);
                 Assert.AreEqual(typeof(SkillState), matchine.runingState.GetType());
                 input.isAttact = false;
                 cha.Update();
@@ -104,7 +104,7 @@ namespace UnitTest
             input.moveDir = new Vector2(1, 0);
             input.isAttact = true;
             cha.Update();
-            Assert.AreEqual("idleatk", anim.log);
+            Assert.AreEqual("idleatk0", anim.log);
             Assert.AreEqual(typeof(SkillState), matchine.runingState.GetType());
         }
         [Test]
@@ -119,7 +119,7 @@ namespace UnitTest
                 cha.Update();
                 input.isAttact = true;
                 cha.Update();
-                Assert.AreEqual("atk", anim.log);
+                Assert.AreEqual("atk0", anim.log);
                 Assert.AreEqual(typeof(SkillState), matchine.runingState.GetType());
                 input.isAttact = false;
                 cha.Update();

@@ -4,7 +4,7 @@
     {
         public abstract void Idle();
         public abstract void Move();
-        public abstract void Attact();
+        public abstract void Attact(int id);
         public abstract void Hit();
     }
 }

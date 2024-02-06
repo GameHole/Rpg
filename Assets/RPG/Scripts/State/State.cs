@@ -46,4 +46,11 @@ namespace RPG
 
         public virtual void RunInternal() { }
     }
+    public static class StateNameEx
+    {
+        public static EnumName ToEnum(this int i)
+        {
+            return (EnumName)i;
+        }
+    }
 }

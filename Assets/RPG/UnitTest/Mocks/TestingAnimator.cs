@@ -16,9 +16,9 @@ namespace UnitTest
             log += "move";
         }
 
-        public override void Attact()
+        public override void Attact(int id)
         {
-            log += "atk";
+            log += $"atk{id}";
         }
 
         public override void Hit()
