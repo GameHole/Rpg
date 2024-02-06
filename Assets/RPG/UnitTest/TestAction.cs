@@ -21,6 +21,8 @@ namespace UnitTest
             input = new TestingActionInput();
             deltaTime = new TestDeltaTime();
             cha = new Character(input, anim, deltaTime);
+            var builder = new CharacterStateBuilder();
+            builder.Build(cha);
             deltaTime._value = 0.5f;
             var state = cha.matchine.GetState<SkillState>(StateName.Skill);
             acts = new SkillAction[2];

@@ -9,6 +9,6 @@ namespace RPG
         {
             return skill.isFinish();
         }
-        protected override Enum stateName => StateName.Basic;
+        public override Enum stateName => StateName.Basic;
     }
 }

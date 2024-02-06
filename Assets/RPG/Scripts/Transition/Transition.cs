@@ -31,6 +31,6 @@ namespace RPG
 
         public abstract bool isVailed();
 
-        protected abstract Enum stateName { get; }
+        public abstract Enum stateName { get; }
     }
 }

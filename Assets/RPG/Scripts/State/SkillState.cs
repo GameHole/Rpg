@@ -21,7 +21,7 @@ namespace RPG
         public int id;
         internal SkillAction action;
 
-        protected override Enum stateName => (EnumName)id;
+        public override Enum stateName => (EnumName)id;
 
         public override bool isVailed()
         {

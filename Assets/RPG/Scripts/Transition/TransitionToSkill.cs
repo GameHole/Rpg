@@ -14,6 +14,6 @@ namespace RPG
             matchine.SetState(StateName.Basic, _this);
             base.Switch();
         }
-        protected override Enum stateName => StateName.Skill;
+        public override Enum stateName => StateName.Skill;
     }
 }

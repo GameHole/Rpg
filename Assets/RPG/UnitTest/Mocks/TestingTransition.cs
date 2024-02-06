@@ -18,7 +18,7 @@ namespace UnitTest
             base.SetMatchine(matchine);
             matchine.SetState(stateName, state);
         }
-        protected override Enum stateName => id;
+        public override Enum stateName => id;
 
     }
 }

@@ -8,6 +8,6 @@ namespace RPG
         {
             return character.input.moveDir != UnityEngine.Vector2.zero;
         }
-        protected override Enum stateName => StateName.Move;
+        public override Enum stateName => StateName.Move;
     }
 }

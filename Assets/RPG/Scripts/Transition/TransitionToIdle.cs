@@ -9,6 +9,6 @@ namespace RPG
         {
             return character.input.moveDir == Vector2.zero;
         }
-        protected override Enum stateName => StateName.Idle;
+        public override Enum stateName => StateName.Idle;
     }
 }

@@ -29,11 +29,13 @@ namespace UnitTest
         [Test]
         public void testTransition()
         {
+            var mat = new StateMatchine();
             var test = new TestingTransition();
-            test.SetMatchine(cha.matchine);
+            test.SetMatchine(mat);
             test.Switch();
-            Assert.NotNull(test.state.log);
-            Assert.AreSame(test.state, cha.matchine.runingState);
+            Assert.AreEqual("start run transition ", test.state.log);
+            Assert.AreSame(test.state, mat.runingState);
+            Assert.AreSame(mat.runingState, mat.GetState(test.stateName));
         }
         [Test]
         public void Move()
@@ -60,30 +62,27 @@ namespace UnitTest
         [Test]
         public void testTransitionToIdle()
         {
+            var mat = new StateMatchine();
             var tran = new TransitionToIdle();
+            Assert.AreEqual(StateName.Idle, tran.stateName);
             tran.SetCharacter(cha);
-            tran.SetMatchine(cha.matchine);
             for (int i = 0; i < 2; i++)
             {
                 input.moveDir = new Vector2(i, 0);
                 Assert.AreEqual(i == 0, tran.isVailed());
             }
-            tran.Switch();
-            Assert.AreSame(cha.matchine.runingState, cha.matchine.GetState(StateName.Idle));
         }
         [Test]
         public void testTransitionToMove()
         {
             var tran = new TransitionToMove();
             tran.SetCharacter(cha);
-            tran.SetMatchine(cha.matchine);
+            Assert.AreEqual(StateName.Move, tran.stateName);
             for (int i = 0; i < 2; i++)
             {
                 input.moveDir = new Vector2(i, 0);
                 Assert.AreEqual(i != 0, tran.isVailed());
             }
-            tran.Switch();
-            Assert.AreSame(cha.matchine.runingState, cha.matchine.GetState(StateName.Move));
         }
         [Test]
         public void testTransitionToSkill()
@@ -108,20 +107,15 @@ namespace UnitTest
         [Test]
         public void testTransitionToBasic()
         {
-            var mat = new StateMatchine();
-            var basic = new LogState();
-            mat.SetState(StateName.Basic, basic);
             var skill = new TestingSkillState();
             var tran = new TransitionToBasic();
+            Assert.AreEqual(StateName.Basic, tran.stateName);
             tran.skill = skill;
-            tran.SetMatchine(mat);
             for (int i = 0; i < 2; i++)
             {
                 skill._isFin = i == 0;
                 Assert.AreEqual(i == 0, tran.isVailed());
             }
-            tran.Switch();
-            Assert.AreSame(mat.runingState, basic);
         }
     }
 }

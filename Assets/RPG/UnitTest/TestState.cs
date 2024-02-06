@@ -40,7 +40,7 @@ namespace UnitTest
             Assert.IsNull(logtran.state.log);
             logtran._isVailed = true;
             state.TestTransition();
-            Assert.AreEqual("start run transition ", logtran.state.log);
+            Assert.NotNull(logtran.state.log);
             logtran.state.log = null;
             Assert.AreSame(logtran.state, mat.runingState);
             var logtran1 = new TestingTransition() { id=(StateName)1, _isVailed = true,  };
