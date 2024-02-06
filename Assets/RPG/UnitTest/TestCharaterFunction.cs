@@ -6,7 +6,7 @@ using UnityEngine;
 using UnityEngine.TestTools;
 namespace UnitTest
 {
-    public class TestAction
+    public class TestCharaterFunction
     {
         private TestingAnimator anim;
         private TestingActionInput input;
