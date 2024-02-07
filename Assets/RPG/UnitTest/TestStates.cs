@@ -178,6 +178,7 @@ namespace UnitTest
             state.SetCharacter(cha);
             state.Start();
             Assert.AreEqual("dead", anim.log);
+            Assert.AreEqual(typeof(NoneHitter), cha.hitter.GetType());
         }
         [Test]
         public void testTransitionToDead()

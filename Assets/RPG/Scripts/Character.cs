@@ -20,11 +20,14 @@ namespace RPG
         public int attact { get; set; }
         public int hp { get; set; } = 2;
         public int defense { get;set; }
+        public Hitter hitter { get; set; }
+
         public Character(IInput input, AAnimator anim, DeltaTime deltaTime)
         {
             this.input = input;
             animator = anim;
             this.deltaTime = deltaTime;
+            hitter = new Hitter(this);
         }
         public void Update()
         {
@@ -33,8 +36,7 @@ namespace RPG
 
         public virtual void Hit(int v)
         {
-            hittable.Set();
-            hp -= v;
+            hitter.Hit(v);
         }
     }
 }

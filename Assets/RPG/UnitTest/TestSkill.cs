@@ -45,9 +45,25 @@ namespace UnitTest
         [Test]
         public void testHit()
         {
+            Assert.IsFalse(cha.hittable.value);
             cha.hp = 10;
             cha.Hit(1);
             Assert.AreEqual(9, cha.hp);
+            Assert.IsTrue(cha.hittable.value);
+        }
+        [Test]
+        public void testHitter()
+        {
+            cha.hp = 10;
+            var hitter = new Hitter(cha);
+            hitter.Hit(1);
+            Assert.AreEqual(9, cha.hp);
+        }
+        [Test]
+        public void testNoneHitter()
+        {
+            var hitter = new NoneHitter();
+            Assert.DoesNotThrow(() => hitter.Hit(1));
         }
         [Test]
         public void testSkillHit()

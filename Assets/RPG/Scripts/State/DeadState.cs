@@ -5,6 +5,7 @@
         public override void Start()
         {
             character.animator.Dead();
+            character.hitter = new NoneHitter();
         }
     }
 }
