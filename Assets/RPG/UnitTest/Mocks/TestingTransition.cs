@@ -21,4 +21,17 @@ namespace UnitTest
         public override Enum stateName => id;
 
     }
+    internal class LogTransition : Transition
+    {
+        public bool _isVailed;
+        public string log;
+
+        public override bool isVailed() => _isVailed;
+        public override Enum stateName => default;
+
+        public override void Switch()
+        {
+            log += "switch";
+        }
+    }
 }

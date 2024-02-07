@@ -7,7 +7,9 @@ namespace RPG
     {
         Idle,Move,Skill,
         Hit,
-        Dead
+        Dead,
+        Revive,
+        Defense
     }
     public class Character 
     {
@@ -21,14 +23,22 @@ namespace RPG
         public int hp { get; set; } = 2;
         public int defense { get;set; }
         public Hitter hitter { get; set; }
+        public Hitter defaultHitter { get; } 
 
         public Character(IInput input, AAnimator anim, DeltaTime deltaTime)
         {
             this.input = input;
             animator = anim;
             this.deltaTime = deltaTime;
-            hitter = new Hitter(this);
+            defaultHitter = new Hitter(this);
+            ResetHitter();
         }
+
+        public void ResetHitter()
+        {
+            hitter = defaultHitter;
+        }
+
         public void Update()
         {
             matchine.Update();

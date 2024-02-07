@@ -32,7 +32,7 @@ namespace RPG
             RunInternal();
             Transition();
         }
-
+        public virtual void End() { }
         protected virtual void Transition()
         {
             foreach (var item in transations)

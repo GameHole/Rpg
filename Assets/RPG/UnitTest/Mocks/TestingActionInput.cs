@@ -7,5 +7,6 @@ namespace UnitTest
     {
         public Vector2 moveDir { get; set; }
         public bool isAttact { get; set; }
+        public bool isDefense { get; set; }
     }
 }

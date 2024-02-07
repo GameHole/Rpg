@@ -36,6 +36,8 @@ namespace UnitTest
             Assert.AreEqual("start run transition ", test.state.log);
             Assert.AreSame(test.state, mat.runingState);
             Assert.AreSame(mat.runingState, mat.GetState(test.stateName));
+            test.Switch();
+            Assert.AreEqual("start run transition end start run transition ", test.state.log);
         }
 
         [Test]
@@ -191,6 +193,66 @@ namespace UnitTest
                 cha.hp = i;
                 Assert.AreEqual(i <= 0, tran.isVailed());
             }
+        }
+        [Test]
+        public void testReviveState()
+        {
+            var state = new ReviveState();
+            state.SetCharacter(cha);
+            state.RunInternal();
+            Assert.AreEqual(0.5f, state.timer.runTime);
+            state.Start();
+            Assert.AreEqual("revive", anim.log);
+            Assert.AreEqual(0, state.timer.runTime);
+            state.End();
+            Assert.AreSame(cha.hitter,cha.defaultHitter);
+        }
+        [Test]
+        public void testTransitionToRevive()
+        {
+            var tran = new TransitionToRevive();
+            tran.SetCharacter(cha);
+            Assert.AreEqual(StateName.Revive, tran.stateName);
+            for (int i = -1; i < 2; i++)
+            {
+                cha.hp = i;
+                Assert.AreEqual(i > 0, tran.isVailed());
+            }
+        }
+        [Test]
+        public void testTransitionDefenseToIdle()
+        {
+            var tran = new TransitionDefenseToIdle();
+            tran.SetCharacter(cha);
+            Assert.AreEqual(StateName.Idle, tran.stateName);
+            for (int i = 0; i < 2; i++)
+            {
+                input.isDefense = i == 0;
+                Assert.AreEqual(i == 1, tran.isVailed());
+            }
+        }
+        [Test]
+        public void testTransitionToDefense()
+        {
+            var tran = new TransitionToDefense();
+            tran.SetCharacter(cha);
+            Assert.AreEqual(StateName.Defense, tran.stateName);
+            for (int i = 0; i < 2; i++)
+            {
+                input.isDefense = i == 0;
+                Assert.AreEqual(i == 0, tran.isVailed());
+            }
+        }
+        [Test]
+        public void testDefenseState()
+        {
+            var state = new DefenseState();
+            state.SetCharacter(cha);
+            state.Start();
+            Assert.AreEqual("defense", anim.log);
+            Assert.AreEqual(cha.hitter.GetType(), state.hitter);
+            state.End();
+            Assert.AreSame(cha.hitter, cha.defaultHitter);
         }
     }
 }

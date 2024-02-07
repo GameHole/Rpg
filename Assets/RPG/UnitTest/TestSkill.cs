@@ -45,19 +45,21 @@ namespace UnitTest
         [Test]
         public void testHit()
         {
-            Assert.IsFalse(cha.hittable.value);
-            cha.hp = 10;
+            Assert.AreSame(cha.hitter, cha.defaultHitter);
+            var hitter = new LogHitter();
+            cha.hitter = hitter;
             cha.Hit(1);
-            Assert.AreEqual(9, cha.hp);
-            Assert.IsTrue(cha.hittable.value);
+            Assert.AreEqual("hit1", hitter.log);
         }
         [Test]
         public void testHitter()
         {
+            Assert.IsFalse(cha.hittable.value);
             cha.hp = 10;
             var hitter = new Hitter(cha);
             hitter.Hit(1);
             Assert.AreEqual(9, cha.hp);
+            Assert.IsTrue(cha.hittable.value);
         }
         [Test]
         public void testNoneHitter()

@@ -18,6 +18,7 @@ namespace RPG
         }
         public virtual void Switch()
         {
+            matchine.runingState?.End();
             var state = matchine.GetState(stateName);
             state.Start();
             RunStateImd(state);

@@ -30,5 +30,10 @@ namespace UnitTest
         {
             log += "dead";
         }
+
+        public override void Revive()
+        {
+            log += "revive";
+        }
     }
 }

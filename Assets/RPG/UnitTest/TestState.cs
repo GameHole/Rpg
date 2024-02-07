@@ -10,13 +10,13 @@ namespace UnitTest
 {
     internal class TestState
     {
-        private TestingTransition logtran;
+        private LogTransition logtran;
         private LogState state;
 
         [SetUp]
         public void set()
         {
-            logtran = new TestingTransition();
+            logtran = new LogTransition();
             state = new LogState();
             state.transations.Add(logtran);
         }
@@ -31,23 +31,22 @@ namespace UnitTest
             Assert.AreSame(cha, state.character);
         }
         [Test]
-        public void testTransition()
+        public void testTransitionOrder()
         {
             var mat = new StateMatchine();
             state.SetMatchine(mat);
             Assert.AreSame(mat, logtran.matchine);
             state.TestTransition();
-            Assert.IsNull(logtran.state.log);
+            Assert.IsNull(logtran.log);
             logtran._isVailed = true;
             state.TestTransition();
-            Assert.NotNull(logtran.state.log);
-            logtran.state.log = null;
-            Assert.AreSame(logtran.state, mat.runingState);
-            var logtran1 = new TestingTransition() { id=(StateName)1, _isVailed = true,  };
+            Assert.AreEqual("switch",logtran.log);
+            logtran.log = null;
+            var logtran1 = new LogTransition() {_isVailed = true,  };
             state.transations.Insert(0, logtran1);
             state.SetMatchine(mat);
             state.TestTransition();
-            Assert.IsNull(logtran.state.log);
+            Assert.IsNull(logtran.log);
         }
     }
 }

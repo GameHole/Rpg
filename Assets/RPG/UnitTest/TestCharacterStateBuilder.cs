@@ -32,9 +32,10 @@ namespace UnitTest
         public void testIdle()
         {
             var idle = new TransitionTaker(matchine.GetState<IdleState>(StateName.Idle));
-            Assert.AreEqual(4, idle.TransitionCount);
+            Assert.AreEqual(5, idle.TransitionCount);
             Assert.AreEqual(typeof(TransitionToDead), idle.NextType());
             Assert.AreEqual(typeof(TransitionToHit), idle.NextType());
+            Assert.AreEqual(typeof(TransitionToDefense), idle.NextType());
             Assert.AreSame(typeof(TransitionToSkill), idle.NextType());
             Assert.AreEqual(typeof(TransitionToMove), idle.NextType());
         }
@@ -42,8 +43,9 @@ namespace UnitTest
         public void testMove()
         {
             var move = new TransitionTaker(matchine.GetState<MoveState>(StateName.Move));
-            Assert.AreEqual(3, move.TransitionCount);
+            Assert.AreEqual(4, move.TransitionCount);
             Assert.AreEqual(typeof(TransitionToDead), move.NextType());
+            Assert.AreEqual(typeof(TransitionToDefense), move.NextType());
             Assert.AreSame(typeof(TransitionToSkill), move.NextType());
             Assert.AreEqual(typeof(TransitionToIdle), move.NextType());
         }
@@ -51,10 +53,11 @@ namespace UnitTest
         public void testSkill()
         {
             var skill = new TransitionTaker(matchine.GetState<SkillState>(StateName.Skill));
-            Assert.AreEqual(4, skill.TransitionCount);
+            Assert.AreEqual(5, skill.TransitionCount);
             Assert.AreEqual(typeof(TransitionToDead), skill.NextType());
             var finish = skill.Next<FinishTransitionBlocker>();
             Assert.AreSame(skill.state, finish.finisher);
+            Assert.AreEqual(typeof(TransitionToDefense), skill.NextType());
             Assert.AreEqual(typeof(TransitionToMove), skill.NextType());
             Assert.AreEqual(typeof(TransitionToIdle), skill.NextType());
             
@@ -75,7 +78,26 @@ namespace UnitTest
         public void testDead()
         {
             var dead = new TransitionTaker(matchine.GetState<DeadState>(StateName.Dead));
-            Assert.AreEqual(0, dead.TransitionCount);
+            Assert.AreEqual(1, dead.TransitionCount);
+            Assert.AreEqual(typeof(TransitionToRevive), dead.NextType());
+        }
+        [Test]
+        public void testRevive()
+        {
+            var state = matchine.GetState<ReviveState>(StateName.Revive);
+            var dead = new TransitionTaker(state);
+            Assert.AreEqual(1, dead.TransitionCount);
+            var finish = dead.Next<FinishTransition>();
+            Assert.AreSame(state.timer, finish.finisher);
+            Assert.AreEqual(StateName.Idle, finish.stateName);
+        }
+        [Test]
+        public void testDefense()
+        {
+            var dead = new TransitionTaker(matchine.GetState<DefenseState>(StateName.Defense));
+            Assert.AreEqual(2, dead.TransitionCount);
+            Assert.AreEqual(typeof(TransitionToSkill), dead.NextType());
+            Assert.AreEqual(typeof(TransitionDefenseToIdle), dead.NextType());
         }
         class TransitionTaker
         {

@@ -23,7 +23,10 @@ namespace UnitTest
         {
             log += "transition ";
         }
-
+        public override void End()
+        {
+            log += "end ";
+        }
         internal void TestTransition()
         {
             base.Transition();

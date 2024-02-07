@@ -5,6 +5,7 @@ namespace RPG
     public interface IInput
     {
         Vector2 moveDir { get; }
-        bool isAttact { get; set; }
+        bool isAttact { get;}
+        bool isDefense { get;}
     }
 }
