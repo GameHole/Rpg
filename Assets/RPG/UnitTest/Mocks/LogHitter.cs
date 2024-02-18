@@ -13,9 +13,9 @@ namespace UnitTest
         public LogHitter() : base(null)
         {
         }
-        public override void Hit(int v)
+        public override void Hit(HitInfo v)
         {
-            log += $"hit{v}";
+            log += $"hit{v.demage}";
         }
     }
 }

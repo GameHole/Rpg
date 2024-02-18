@@ -198,7 +198,7 @@ namespace UnitTest
             var hit = matchine.GetState<HitState>(StateName.Hit);
             var timer = hit.timer;
             timer.duration = 1;
-            cha.Hit(1);
+            cha.Hit(new HitInfo { demage = 1 });
             cha.Update();
             Assert.AreEqual(typeof(HitState), matchine.runingState.GetType());
             Assert.AreEqual(0.5f, timer.runTime);

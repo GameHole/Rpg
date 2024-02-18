@@ -119,13 +119,14 @@ namespace UnitTest
             var tran = new TransitionToHit();
             Assert.AreEqual(StateName.Hit, tran.stateName);
             tran.SetCharacter(cha);
-            cha.Hit(1);
+            var hit = new HitInfo { demage = 1 };
+            cha.Hit(hit);
             for (int i = 0; i < 2; i++)
             {
                 Assert.AreEqual(i == 0, tran.isVailed());
             }
             cha.hittable = new Unhittable();
-            cha.Hit(1);
+            cha.Hit(hit);
             for (int i = 0; i < 2; i++)
             {
                 Assert.IsFalse(tran.isVailed());

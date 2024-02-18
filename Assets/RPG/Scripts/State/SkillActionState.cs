@@ -2,26 +2,26 @@
 {
     public class SkillActionState:State
     {
-        public Timer action;
+        public Timer timer { get; set; }
         public int id { get; set; }
         public float hitTime { get; set; }
         public TargetFilter targetFilter { get; set; } = new TargetFilter();
         private bool isHit;
         public override void Start()
         {
-            action.Reset();
+            timer.Reset();
             character.animator.Attact(id);
             isHit = false;
         }
         public override void RunInternal()
         {
-            action.Update(character.deltaTime.value);
-            if (!isHit&&action.runTime >= hitTime)
+            timer.Update(character.deltaTime.value);
+            if (!isHit&&timer.runTime >= hitTime)
             {
                 foreach (var item in targetFilter.FindTargets())
                 {
-                    var hit = character.attact - item.defense;
-                    item.Hit(hit);
+                    var damage = character.attact - item.defense;
+                    item.Hit(new HitInfo { demage = damage });
                 }
                 isHit = true;
             }

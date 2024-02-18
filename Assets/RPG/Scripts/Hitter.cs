@@ -11,10 +11,10 @@ namespace RPG
             this.cha = cha;
         }
 
-        public virtual void Hit(int v)
+        public virtual void Hit(HitInfo info)
         {
             cha.hittable.Set();
-            cha.hp -= v;
+            cha.hp -= info.demage;
         }
     }
     public class NoneHitter : Hitter
@@ -22,6 +22,6 @@ namespace RPG
         public NoneHitter() : base(null)
         {
         }
-        public override void Hit(int v) { }
+        public override void Hit(HitInfo v) { }
     }
 }

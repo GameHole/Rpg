@@ -35,7 +35,7 @@ namespace UnitTest
             state.id = 1;
             state.SetCharacter(cha);
             var timer = new Timer();
-            state.action = timer;
+            state.timer = timer;
             state.RunInternal();
             Assert.AreEqual(0.5f, timer.runTime);
             state.Start();
@@ -48,7 +48,7 @@ namespace UnitTest
             Assert.AreSame(cha.hitter, cha.defaultHitter);
             var hitter = new LogHitter();
             cha.hitter = hitter;
-            cha.Hit(1);
+            cha.Hit(new HitInfo { demage = 1 });
             Assert.AreEqual("hit1", hitter.log);
         }
         [Test]
@@ -57,7 +57,7 @@ namespace UnitTest
             Assert.IsFalse(cha.hittable.value);
             cha.hp = 10;
             var hitter = new Hitter(cha);
-            hitter.Hit(1);
+            hitter.Hit(new HitInfo { demage = 1 });
             Assert.AreEqual(9, cha.hp);
             Assert.IsTrue(cha.hittable.value);
         }
@@ -65,7 +65,7 @@ namespace UnitTest
         public void testNoneHitter()
         {
             var hitter = new NoneHitter();
-            Assert.DoesNotThrow(() => hitter.Hit(1));
+            Assert.DoesNotThrow(() => hitter.Hit(new HitInfo { demage=1}));
         }
         [Test]
         public void testSkillHit()
@@ -73,7 +73,7 @@ namespace UnitTest
             var state = new SkillActionState();
             state.SetCharacter(cha);
             var timer = new Timer() { duration = 2 };
-            state.action = timer;
+            state.timer = timer;
             var filter = new TestingTargetFilter();
             state.hitTime = 1;
             state.targetFilter = filter;
@@ -124,7 +124,7 @@ namespace UnitTest
             for (int i = 0; i < acts.Length; i++)
             {
                 var state = mat.GetState<SkillActionState>(i.ToEnum());
-                Assert.AreSame(acts[i], state.action);
+                Assert.AreSame(acts[i], state.timer);
                 Assert.AreEqual(i, state.id);
                 Assert.AreSame(cha, state.character);
                 Assert.AreEqual(1, state.transations.Count);

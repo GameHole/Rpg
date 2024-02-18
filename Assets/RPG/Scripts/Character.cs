@@ -11,6 +11,11 @@ namespace RPG
         Revive,
         Defense
     }
+    public class HitInfo
+    {
+        public int demage;
+        public Vector3 hitPoint;
+    }
     public class Character 
     {
         public IInput input { get; }
@@ -44,9 +49,9 @@ namespace RPG
             matchine.Update();
         }
 
-        public virtual void Hit(int v)
+        public virtual void Hit(HitInfo info)
         {
-            hitter.Hit(v);
+            hitter.Hit(info);
         }
     }
 }

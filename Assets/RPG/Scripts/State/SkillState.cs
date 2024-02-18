@@ -11,7 +11,7 @@ namespace RPG
             matchine = new StateMatchine();
             for (int i = 0; i < actions.Count; i++)
             {
-                var state = new SkillActionState { action = actions[i], id=i };
+                var state = new SkillActionState { timer = actions[i], id=i };
                 state.transations.Add(new TransitionToNextAction((i + 1) % actions.Count,actions[i]));
                 matchine.SetState(i.ToEnum(), state);
             }
@@ -26,7 +26,7 @@ namespace RPG
         }
         public virtual bool isFinish()
         {
-            return (matchine.runingState as SkillActionState).action.isFinish();
+            return (matchine.runingState as SkillActionState).timer.isFinish();
         }
     }
 }

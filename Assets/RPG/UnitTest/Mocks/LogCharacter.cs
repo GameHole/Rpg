@@ -9,16 +9,11 @@ namespace UnitTest
 {
     internal class LogCharacter : Character
     {
-        internal string log;
-
+        internal string log { get => loghitter.log; set => loghitter.log = value; }
+        private LogHitter loghitter = new LogHitter();
         public LogCharacter() : base(null, null, null)
         {
-        }
-
-
-        public override void Hit(int v)
-        {
-            log += $"hit{v}";
+            hitter = loghitter;
         }
     }
 }
