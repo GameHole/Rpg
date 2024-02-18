@@ -8,5 +8,6 @@
         public abstract void Hit();
         public abstract void Dead();
         public abstract void Revive();
+        public abstract void Defense();
     }
 }

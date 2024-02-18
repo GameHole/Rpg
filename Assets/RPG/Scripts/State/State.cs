@@ -10,7 +10,7 @@ namespace RPG
 
         public Character character { get; private set; }
         public List<Transition> transations { get; } = new List<Transition>();
-        public void SetCharacter(Character character)
+        public virtual void SetCharacter(Character character)
         {
             this.character = character;
             foreach (var item in transations)

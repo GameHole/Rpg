@@ -35,5 +35,10 @@ namespace UnitTest
         {
             log += "revive";
         }
+
+        public override void Defense()
+        {
+            log += "defense";
+        }
     }
 }

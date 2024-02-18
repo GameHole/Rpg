@@ -161,7 +161,6 @@ namespace UnitTest
             var mat = new StateMatchine();
             var skill = new LogState();
             mat.SetState(StateName.Skill,skill);
-            var basic = new LogState();
             var tran = new TransitionToSkill();
             tran.SetCharacter(cha);
             tran.SetMatchine(mat);
@@ -248,9 +247,10 @@ namespace UnitTest
         {
             var state = new DefenseState();
             state.SetCharacter(cha);
+            Assert.NotNull(state.hitter);
             state.Start();
             Assert.AreEqual("defense", anim.log);
-            Assert.AreEqual(cha.hitter.GetType(), state.hitter);
+            Assert.AreSame(cha.hitter, state.hitter);
             state.End();
             Assert.AreSame(cha.hitter, cha.defaultHitter);
         }
