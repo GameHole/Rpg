@@ -95,7 +95,8 @@ namespace UnitTest
         public void testDefense()
         {
             var dead = new TransitionTaker(matchine.GetState<DefenseState>(StateName.Defense));
-            Assert.AreEqual(2, dead.TransitionCount);
+            Assert.AreEqual(3, dead.TransitionCount);
+            Assert.AreEqual(typeof(TransitionToBreakDefense), dead.NextType());
             Assert.AreEqual(typeof(TransitionToSkill), dead.NextType());
             Assert.AreEqual(typeof(TransitionDefenseToIdle), dead.NextType());
         }
