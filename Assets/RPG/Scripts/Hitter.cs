@@ -2,10 +2,14 @@
 
 namespace RPG
 {
-    public class Hitter
+    public interface IHitter
+    {
+        void Hit(HitInfo info);
+    }
+    public class Hitter: IHitter
     {
         private Character cha;
-
+        public Hitter() { }
         public Hitter(Character cha)
         {
             this.cha = cha;

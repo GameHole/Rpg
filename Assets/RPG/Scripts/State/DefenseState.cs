@@ -6,16 +6,17 @@
         public override void SetCharacter(Character character)
         {
             base.SetCharacter(character);
-            hitter = new DefenseHitter(character);
+            hitter= new DefenseHitter(character);
         }
         public override void Start()
         {
             character.animator.Defense();
+            hitter.Decorate();
             character.hitter = hitter;
         }
         public override void End()
         {
-            character.ResetHitter();
+            character.hitter = hitter.hitter;
         }
     }
 }

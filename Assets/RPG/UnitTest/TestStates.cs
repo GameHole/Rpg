@@ -249,11 +249,14 @@ namespace UnitTest
             var state = new DefenseState();
             state.SetCharacter(cha);
             Assert.NotNull(state.hitter);
+            var hitter = new NoneHitter();
+            cha.hitter = hitter;
             state.Start();
             Assert.AreEqual("defense", anim.log);
             Assert.AreSame(cha.hitter, state.hitter);
+            Assert.AreSame(hitter, state.hitter.hitter);
             state.End();
-            Assert.AreSame(cha.hitter, cha.defaultHitter);
+            Assert.AreSame(hitter,cha.hitter);
         }
     }
 }

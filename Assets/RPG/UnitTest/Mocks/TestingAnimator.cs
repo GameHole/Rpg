@@ -40,5 +40,10 @@ namespace UnitTest
         {
             log += "defense";
         }
+
+        public override void DefenseHit()
+        {
+            log += "defenseHit";
+        }
     }
 }

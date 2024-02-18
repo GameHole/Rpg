@@ -22,13 +22,15 @@ namespace RPG
         public DeltaTime deltaTime { get; }
         public StateMatchine matchine { get; } = new StateMatchine();
         public AAnimator animator { get; }
-        public Vector2 position { get; set; }
         public Hittable hittable { get; set; } = new Hittable();
+        public IHitter hitter { get; set; }
+        public Hitter defaultHitter { get; }
+
+        public Vector2 position { get; set; }
         public int attact { get; set; }
         public int hp { get; set; } = 2;
         public int defense { get;set; }
-        public Hitter hitter { get; set; }
-        public Hitter defaultHitter { get; } 
+        public int strength { get; set; }
 
         public Character(IInput input, AAnimator anim, DeltaTime deltaTime)
         {
