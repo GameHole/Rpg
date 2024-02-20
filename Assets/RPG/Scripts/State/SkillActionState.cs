@@ -1,21 +1,14 @@
 ﻿namespace RPG
 {
-    public class SkillActionState:State
+    public class SkillActionState:AWaitingState
     {
-        public Timer timer { get; set; }
         public int id { get; set; }
         public float hitTime { get; set; }
         public TargetFilter targetFilter { get; set; } = new TargetFilter();
         private bool isHit;
-        public override void Start()
-        {
-            timer.Reset();
-            character.animator.Attact(id);
-            isHit = false;
-        }
         public override void RunInternal()
         {
-            timer.Update(character.deltaTime.value);
+            base.RunInternal();
             if (!isHit&&timer.runTime >= hitTime)
             {
                 foreach (var item in targetFilter.FindTargets())
@@ -25,6 +18,12 @@
                 }
                 isHit = true;
             }
+        }
+
+        protected override void Play()
+        {
+            character.animator.Attact(id);
+            isHit = false;
         }
     }
 }

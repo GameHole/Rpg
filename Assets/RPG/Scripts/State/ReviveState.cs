@@ -2,7 +2,7 @@
 
 namespace RPG
 {
-    public class ReviveState : HitState
+    public class ReviveState : AWaitingState
     {
         protected override void Play()
         {

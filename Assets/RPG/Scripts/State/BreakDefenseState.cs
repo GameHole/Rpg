@@ -1,17 +1,10 @@
 ﻿namespace RPG
 {
-    public class BreakDefenseState : State
+    public class BreakDefenseState : AWaitingState
     {
-        public Timer timer { get; } = new Timer();
-
-        public override void Start()
+        protected override void Play()
         {
             character.animator.BreakDefense();
-            timer.Reset();
-        }
-        public override void RunInternal()
-        {
-            timer.Update(character.deltaTime.value);
         }
     }
 }
