@@ -9,7 +9,8 @@ namespace RPG
         Hit,
         Dead,
         Revive,
-        Defense
+        Defense,
+        BreakDefense
     }
     public class HitInfo
     {

@@ -100,6 +100,16 @@ namespace UnitTest
             Assert.AreEqual(typeof(TransitionToSkill), dead.NextType());
             Assert.AreEqual(typeof(TransitionDefenseToIdle), dead.NextType());
         }
+        [Test]
+        public void testBreakDefense()
+        {
+            var state = matchine.GetState<BreakDefenseState>(StateName.BreakDefense);
+            var dead = new TransitionTaker(state);
+            Assert.AreEqual(1, dead.TransitionCount);
+            var finish = dead.Next<FinishTransition>();
+            Assert.AreSame(state.timer, finish.finisher);
+            Assert.AreEqual(StateName.Idle, finish.stateName);
+        }
         class TransitionTaker
         {
             public State state { get; private set; }

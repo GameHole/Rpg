@@ -34,8 +34,11 @@ namespace RPG
             var revive = new ReviveState();
             revive.transations.Add(new FinishTransition(StateName.Idle, revive.timer));
             var defense = new DefenseState();
+            defense.transations.Add(new TransitionToBreakDefense());
             defense.transations.Add(new TransitionToSkill());
             defense.transations.Add(new TransitionDefenseToIdle());
+            var breakDefense = new BreakDefenseState();
+            breakDefense.transations.Add(new FinishTransition(StateName.Idle, breakDefense.timer));
             matchine.SetState(StateName.Idle, idle);
             matchine.SetState(StateName.Move, move);
             matchine.SetState(StateName.Skill, skill);
@@ -43,6 +46,7 @@ namespace RPG
             matchine.SetState(StateName.Dead, dead);
             matchine.SetState(StateName.Revive, revive);
             matchine.SetState(StateName.Defense, defense);
+            matchine.SetState(StateName.BreakDefense, breakDefense);
             matchine.SetCharacter(cha);
             toIdle.Switch();
         }

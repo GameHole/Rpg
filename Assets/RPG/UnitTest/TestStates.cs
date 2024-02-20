@@ -258,5 +258,28 @@ namespace UnitTest
             state.End();
             Assert.AreSame(hitter,cha.hitter);
         }
+        [Test]
+        public void testTransitionToBreakDefense()
+        {
+            var tran = new TransitionToBreakDefense();
+            tran.SetCharacter(cha);
+            Assert.AreEqual(StateName.BreakDefense, tran.stateName);
+            for (int i = 0; i < 2; i++)
+            {
+                cha.strength = i;
+                Assert.AreEqual(i == 0, tran.isVailed());
+            }
+        }
+        [Test]
+        public void testBreakDefenseState()
+        {
+            var state = new BreakDefenseState();
+            state.SetCharacter(cha);
+            state.RunInternal();
+            Assert.AreEqual(0.5f, state.timer.runTime);
+            state.Start();
+            Assert.AreEqual(0, state.timer.runTime);
+            Assert.AreEqual("breakdefense", anim.log);
+        }
     }
 }
