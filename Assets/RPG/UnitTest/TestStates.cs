@@ -63,14 +63,22 @@ namespace UnitTest
             Assert.AreEqual("idle", anim.log);
         }
         [Test]
-        public void testHit()
+        public void testWaitingState()
         {
-            var state = new HitState();
+            var state = new LogWaitingState();
             state.SetCharacter(cha);
             state.RunInternal();
             Assert.AreEqual(0.5f, state.timer.runTime);
             state.Start();
             Assert.AreEqual(0, state.timer.runTime);
+            Assert.AreEqual("play", state.log);
+        }
+        [Test]
+        public void testHit()
+        {
+            var state = new HitState();
+            state.SetCharacter(cha);
+            state.Start();
             Assert.AreEqual("hit", anim.log);
         }
         [Test]
@@ -197,6 +205,7 @@ namespace UnitTest
         [Test]
         public void testReviveState()
         {
+            cha.hitter = new NoneHitter();
             var state = new ReviveState();
             state.SetCharacter(cha);
             state.RunInternal();
