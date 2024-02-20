@@ -9,47 +9,49 @@ using UnityEngine;
 
 namespace UnitTest
 {
-    internal class TestDefenseHitter
+    internal class TestDefenseHit
     {
         private LogHitter hitter;
-        private DefenseHitter def;
+        private DefenseState state;
         private TestingAnimator anim;
         private Character cha;
 
         [SetUp]
         public void set()
         {
+            state = new DefenseState();
             anim = new TestingAnimator();
             cha = new Character(new TestingActionInput(), anim, new TestDeltaTime());
             hitter = new LogHitter();
             cha.hitter = hitter;
-            def = new DefenseHitter(cha);
-            def.Decorate();
-            def.ranger = new TestingRanger();
+            state.SetCharacter(cha);
+            state.Start();
+            state.ranger = new TestingRanger();
         }
         [Test]
-        public void testHitOutOfRange()
+        public void testStateHitOutOfRange()
         {
-            def.Hit(new HitInfo { demage = 1, hitPoint = new Vector3(1,0,0) });
+            state.Hit(new HitInfo { demage = 1, hitPoint = new Vector3(1, 0, 0) });
             Assert.AreEqual("hit1", hitter.log);
         }
         [Test]
-        public void testHitInRange()
+        public void testStateHitInRange()
         {
+            anim.log = null;
             cha.hp = 1;
             cha.strength = 10;
             var hit = new HitInfo { demage = 1, hitPoint = new Vector3(0, 0, 0) };
             string hitStr = null;
             for (int i = 0; i < 9; i++)
             {
-                def.Hit(hit);
+                state.Hit(hit);
                 hitStr += "defenseHit";
                 Assert.AreEqual(hitStr, anim.log);
                 Assert.AreEqual(1, cha.hp);
                 Assert.AreEqual(9 - i, cha.strength);
             }
             hit.demage = 2;
-            def.Hit(hit);
+            state.Hit(hit);
             Assert.AreEqual(0, cha.strength);
         }
     }

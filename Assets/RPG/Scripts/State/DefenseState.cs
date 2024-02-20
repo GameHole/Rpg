@@ -1,22 +1,32 @@
 ﻿namespace RPG
 {
-    public class DefenseState : State
+    public class DefenseState : State, IHitter
     {
-        public DefenseHitter hitter { get; private set; }
-        public override void SetCharacter(Character character)
-        {
-            base.SetCharacter(character);
-            hitter= new DefenseHitter(character);
-        }
+        public IHitter hitter { get; set; }
+        public IRanger ranger { get; set; }
         public override void Start()
         {
             character.animator.Defense();
-            hitter.Decorate();
-            character.hitter = hitter;
+            hitter = character.hitter;
+            character.hitter = this;
         }
         public override void End()
         {
-            character.hitter = hitter.hitter;
+            character.hitter = hitter;
+        }
+        public void Hit(HitInfo info)
+        {
+            if (ranger.isInRange(info.hitPoint))
+            {
+                character.animator.DefenseHit();
+                character.strength -= info.demage;
+                if (character.strength < 0)
+                    character.strength = 0;
+            }
+            else
+            {
+                hitter.Hit(info);
+            }
         }
     }
 }
