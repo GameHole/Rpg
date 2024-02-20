@@ -95,7 +95,7 @@ namespace UnitTest
             };
             foreach (var data in tests)
             {
-                var msg = data.GetType().ToString();
+                var msg = data.name.ToString();
                 var taker = new TransitionTaker(matchine.GetState(data.name));
                 Assert.AreEqual(data.assertions.Length, taker.TransitionCount, msg);
                 foreach (var item in data.assertions)
