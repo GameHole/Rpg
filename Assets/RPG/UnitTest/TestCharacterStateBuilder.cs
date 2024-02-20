@@ -53,8 +53,9 @@ namespace UnitTest
         public void testSkill()
         {
             var skill = new TransitionTaker(matchine.GetState<SkillState>(StateName.Skill));
-            Assert.AreEqual(5, skill.TransitionCount);
+            Assert.AreEqual(6, skill.TransitionCount);
             Assert.AreEqual(typeof(TransitionToDead), skill.NextType());
+            Assert.AreEqual(typeof(TransitionToHit), skill.NextType());
             var finish = skill.Next<FinishTransitionBlocker>();
             Assert.AreSame(skill.state, finish.finisher);
             Assert.AreEqual(typeof(TransitionToDefense), skill.NextType());
@@ -105,7 +106,8 @@ namespace UnitTest
         {
             var state = matchine.GetState<BreakDefenseState>(StateName.BreakDefense);
             var dead = new TransitionTaker(state);
-            Assert.AreEqual(1, dead.TransitionCount);
+            Assert.AreEqual(2, dead.TransitionCount);
+            Assert.AreEqual(typeof(TransitionToDead), dead.NextType());
             var finish = dead.Next<FinishTransition>();
             Assert.AreSame(state.timer, finish.finisher);
             Assert.AreEqual(StateName.Idle, finish.stateName);

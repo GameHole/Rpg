@@ -21,6 +21,7 @@ namespace RPG
             move.transations.Add(toIdle);
             var skill = new SkillState();
             skill.transations.Add(new TransitionToDead());
+            skill.transations.Add(new TransitionToHit());
             skill.transations.Add(new FinishTransitionBlocker(skill));
             skill.transations.Add(new TransitionToDefense());
             skill.transations.Add(new TransitionToMove());
@@ -38,6 +39,7 @@ namespace RPG
             defense.transations.Add(new TransitionToSkill());
             defense.transations.Add(new TransitionDefenseToIdle());
             var breakDefense = new BreakDefenseState();
+            breakDefense.transations.Add(new TransitionToDead());
             breakDefense.transations.Add(new FinishTransition(StateName.Idle, breakDefense.timer));
             matchine.SetState(StateName.Idle, idle);
             matchine.SetState(StateName.Move, move);
