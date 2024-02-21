@@ -18,7 +18,7 @@ namespace RPG
             for (int i = 0; i < actions.Count; i++)
             {
                 var action = actions[i];
-                var state = new SkillActionState { id = action.id, hitTime=action.hitTime };
+                var state = new SkillActionState { clip = action };
                 state.timer.duration = action.duration;
                 state.transations.Add(new TransitionToNextAction((i + 1) % actions.Count, state.timer));
                 matchine.SetState(i.ToEnum(), state);

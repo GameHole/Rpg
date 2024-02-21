@@ -10,24 +10,32 @@ namespace UnitTest.StateTest
 {
     internal class TestSkillActionState: StateTest<SkillActionState>
     {
+        private ActionClip clip;
+
+        public override void set()
+        {
+            base.set();
+            clip = new ActionClip();
+            state.clip = clip;
+        }
         [Test]
         public void testState()
         {
-            state.id = 1;
-            state.timer.duration = 1;
+            clip.id = 1;
+            clip.duration = 1;
             state.RunInternal();
             Assert.AreEqual(0.5f, state.timer.runTime);
             state.Start();
+            Assert.AreEqual(1, state.timer.duration);
             Assert.AreEqual(0, state.timer.runTime);
             Assert.AreEqual(anim.Str("atk1"), anim.log);
         }
         [Test]
         public void testHit()
         {
-            var timer = new Timer() { duration = 2 };
-            state.timer = timer;
+            state.timer.duration = 2;
             var filter = new TestingTargetFilter();
-            state.hitTime = 1;
+            clip.hitTime = 1;
             state.targetFilter = filter;
             for (int c = 0; c < 2; c++)
             {

@@ -62,9 +62,7 @@ namespace UnitTest.StateTest
             for (int i = 0; i < acts.Length; i++)
             {
                 var state = mat.GetState<SkillActionState>(i.ToEnum());
-                Assert.AreEqual(2, state.timer.duration);
-                Assert.AreEqual(i+1, state.id);
-                Assert.AreEqual(i * 0.1f, state.hitTime);
+                Assert.AreSame(acts[i], state.clip);
                 Assert.AreSame(cha, state.character);
                 var taker = new TransitionTaker(state);
                 Assert.AreEqual(1, taker.TransitionCount);

@@ -2,14 +2,13 @@
 {
     public class SkillActionState:AWaitingState
     {
-        public int id { get; set; }
-        public float hitTime { get; set; }
+        public ActionClip clip { get; set; }
         public TargetFilter targetFilter { get; set; } = new TargetFilter();
         private bool isHit;
         public override void RunInternal()
         {
             base.RunInternal();
-            if (!isHit&&timer.runTime >= hitTime)
+            if (!isHit&&timer.runTime >= clip.hitTime)
             {
                 foreach (var item in targetFilter.FindTargets())
                 {
@@ -22,7 +21,8 @@
 
         protected override void Play()
         {
-            character.animator.Attact(id);
+            character.animator.Attact(clip.id);
+            timer.duration = clip.duration;
             isHit = false;
         }
     }
