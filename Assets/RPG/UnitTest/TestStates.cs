@@ -9,6 +9,7 @@ using UnityEngine;
 
 namespace UnitTest
 {
+
     internal class TestStates
     {
         private TestingAnimator anim;
@@ -27,21 +28,7 @@ namespace UnitTest
             deltaTime._value = 0.5f;
         }
         [Test]
-        public void testTransition()
-        {
-            var mat = new StateMatchine();
-            var test = new TestingTransition();
-            test.SetMatchine(mat);
-            test.Switch();
-            Assert.AreEqual("start run transition ", test.state.log);
-            Assert.AreSame(test.state, mat.runingState);
-            Assert.AreSame(mat.runingState, mat.GetState(test.stateName));
-            test.Switch();
-            Assert.AreEqual("start run transition end start run transition ", test.state.log);
-        }
-
-        [Test]
-        public void Move()
+        public void testMoveState()
         {
             input.moveDir = new Vector2(0.1f, 0);
             var state = new MoveState();
@@ -55,7 +42,7 @@ namespace UnitTest
             }
         }
         [Test]
-        public void Idle()
+        public void testIdleState()
         {
             var state = new IdleState();
             state.SetCharacter(cha);
@@ -167,19 +154,14 @@ namespace UnitTest
         [Test]
         public void testTransitionToSkill()
         {
-            var mat = new StateMatchine();
-            var skill = new LogState();
-            mat.SetState(StateName.Skill,skill);
             var tran = new TransitionToSkill();
             tran.SetCharacter(cha);
-            tran.SetMatchine(mat);
+            Assert.AreEqual(StateName.Skill, tran.stateName);
             for (int i = 0; i < 2; i++)
             {
                 input.isAttact = i == 0;
                 Assert.AreEqual(i == 0, tran.isVailed());
             }
-            tran.Switch();
-            Assert.AreSame(mat.runingState, skill);
         }
         [Test]
         public void testDeadState()

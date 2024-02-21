@@ -48,5 +48,18 @@ namespace UnitTest
             state.TestTransition();
             Assert.IsNull(logtran.log);
         }
+        [Test]
+        public void testTransition()
+        {
+            var mat = new StateMatchine();
+            var test = new TestingTransition();
+            test.SetMatchine(mat);
+            test.Switch();
+            Assert.AreEqual("start run transition ", test.state.log);
+            Assert.AreSame(test.state, mat.runingState);
+            Assert.AreSame(mat.runingState, mat.GetState(test.stateName));
+            test.Switch();
+            Assert.AreEqual("start run transition end start run transition ", test.state.log);
+        }
     }
 }
