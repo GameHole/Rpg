@@ -3,20 +3,15 @@ using RPG;
 
 namespace UnitTest
 {
-    internal class TestSkill
+    internal class TestSkill:StateTesting
     {
         private Timer[] acts;
         private SkillState skill;
-        private TestingActionInput input;
-        private TestingAnimator anim;
-        private Character cha;
 
         [SetUp]
-        public void set()
+        public override void set()
         {
-            input = new TestingActionInput();
-            anim = new TestingAnimator();
-            cha = new Character(input, anim, new TestDeltaTime { _value=0.5f});
+            base.set();
             skill = new SkillState();
             skill.SetCharacter(cha);
             acts = new Timer[2];

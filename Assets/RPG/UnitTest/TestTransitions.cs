@@ -4,23 +4,8 @@ using UnityEngine;
 
 namespace UnitTest
 {
-    internal class TestTransitions
+    internal class TestTransitions:StateTesting
     {
-        private TestingAnimator anim;
-        private TestingActionInput input;
-        private TestDeltaTime deltaTime;
-        private Character cha;
-
-        [SetUp]
-        public void set()
-        {
-            anim = new TestingAnimator();
-            input = new TestingActionInput();
-            deltaTime = new TestDeltaTime();
-            cha = new Character(input, anim, deltaTime);
-            anim.log = null;
-            deltaTime._value = 0.5f;
-        }
         [Test]
         public void testFinishTransitionBlocker()
         {

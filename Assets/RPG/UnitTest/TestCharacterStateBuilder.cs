@@ -8,15 +8,12 @@ using System.Threading.Tasks;
 
 namespace UnitTest
 {
-    internal class TestCharacterStateBuilder
+    internal class TestCharacterStateBuilder: StateTesting
     {
         private StateMatchine matchine;
-        private Character cha;
-
-        [SetUp]
-        public void set()
+        public override void set()
         {
-            cha = new Character(new TestingActionInput(),new TestingAnimator(), new TestDeltaTime());
+            base.set();
             var builder = new CharacterStateBuilder();
             builder.Build(cha);
             matchine = cha.matchine;

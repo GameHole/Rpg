@@ -9,22 +9,12 @@ using UnityEngine;
 
 namespace UnitTest
 {
-    internal class TestStates
+    internal class TestStates:StateTesting
     {
-        private TestingAnimator anim;
-        private TestingActionInput input;
-        private TestDeltaTime deltaTime;
-        private Character cha;
-
-        [SetUp]
-        public void set()
+        public override void set()
         {
-            anim = new TestingAnimator();
-            input = new TestingActionInput();
-            deltaTime = new TestDeltaTime();
-            cha = new Character(input, anim, deltaTime);
+            base.set();
             anim.log = null;
-            deltaTime._value = 0.5f;
         }
         [Test]
         public void testMoveState()
@@ -36,7 +26,7 @@ namespace UnitTest
             Assert.AreEqual("move", anim.log);
             for (int i = 0; i < 2; i++)
             {
-                state.Run();
+                state.RunInternal();
                 AssertEx.AreEqualVec2(new Vector2(0.1f*0.5f*(i+1), 0), cha.position);
             }
         }

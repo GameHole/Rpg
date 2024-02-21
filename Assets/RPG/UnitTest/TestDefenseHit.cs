@@ -9,19 +9,16 @@ using UnityEngine;
 
 namespace UnitTest
 {
-    internal class TestDefenseHit
+    internal class TestDefenseHit:StateTesting
     {
         private LogHitter hitter;
         private DefenseState state;
-        private TestingAnimator anim;
-        private Character cha;
 
         [SetUp]
-        public void set()
+        public override void set()
         {
             state = new DefenseState();
-            anim = new TestingAnimator();
-            cha = new Character(new TestingActionInput(), anim, new TestDeltaTime());
+            base.set();
             hitter = new LogHitter();
             cha.hitter = hitter;
             state.SetCharacter(cha);
