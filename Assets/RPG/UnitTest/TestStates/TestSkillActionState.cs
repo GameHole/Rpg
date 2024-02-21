@@ -14,12 +14,11 @@ namespace UnitTest.StateTest
         public void testState()
         {
             state.id = 1;
-            var timer = new Timer();
-            state.timer = timer;
+            state.timer.duration = 1;
             state.RunInternal();
-            Assert.AreEqual(0.5f, timer.runTime);
+            Assert.AreEqual(0.5f, state.timer.runTime);
             state.Start();
-            Assert.AreEqual(0, timer.runTime);
+            Assert.AreEqual(0, state.timer.runTime);
             Assert.AreEqual(anim.Str("atk1"), anim.log);
         }
         [Test]

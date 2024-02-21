@@ -120,13 +120,9 @@ namespace UnitTest
             input.isAttact = false;
             for (int i = 0; i < 3; i++)
             {
-                Assert.AreEqual((i + 1) * 0.5f, acts[0].runTime);
                 Assert.AreEqual(typeof(SkillState), matchine.runingState.GetType());
                 cha.Update();
-                Assert.AreEqual(0, acts[1].runTime);
             }
-            Assert.AreEqual(2, acts[0].runTime);
-            Assert.AreEqual(0, acts[1].runTime);
             Assert.AreEqual(typeof(IdleState), matchine.runingState.GetType());
         }
         [Test]
@@ -138,8 +134,6 @@ namespace UnitTest
             {
                 cha.Update();
             }
-            Assert.AreEqual(2, acts[0].runTime);
-            Assert.AreEqual(0, acts[1].runTime);
             Assert.AreEqual(typeof(SkillState), matchine.runingState.GetType());
             for (int i = 0; i < 3; i++)
             {
@@ -147,7 +141,6 @@ namespace UnitTest
             }
             input.isAttact = false;
             cha.Update();
-            Assert.AreEqual(2, acts[1].runTime);
             Assert.AreEqual(typeof(IdleState), matchine.runingState.GetType());
         }
         [Test]
@@ -159,11 +152,6 @@ namespace UnitTest
                 cha.Update();
             }
             Assert.AreEqual(typeof(SkillState), matchine.runingState.GetType());
-            Assert.AreEqual(0, acts[0].runTime);
-            Assert.AreEqual(2, acts[1].runTime);
-            cha.Update();
-            Assert.AreEqual(0.5f, acts[0].runTime);
-            Assert.AreEqual(2, acts[1].runTime);
         }
         [Test]
         public void testHit()

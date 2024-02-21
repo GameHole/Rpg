@@ -61,33 +61,40 @@ namespace UnitTest.StateTest
             for (int i = 0; i < acts.Length; i++)
             {
                 var state = mat.GetState<SkillActionState>(i.ToEnum());
-                Assert.AreSame(acts[i], state.timer);
+                Assert.AreEqual(acts[i].duration, state.timer.duration);
                 Assert.AreEqual(i, state.id);
                 Assert.AreSame(cha, state.character);
-                Assert.AreEqual(1, state.transations.Count);
-                var tran = (state.transations[0] as TransitionToNextAction);
+                var taker = new TransitionTaker(state);
+                Assert.AreEqual(1, taker.TransitionCount);
+                var tran = taker.Next<TransitionToNextAction>();
                 Assert.AreEqual(((i + 1) % acts.Length).ToEnum(), tran.stateName);
-                Assert.AreSame(acts[i], tran.finisher);
+                Assert.AreSame(state.timer, tran.finisher);
             }
             Assert.AreSame(mat.runingState, mat.GetState(0.ToEnum()));
             state.RunInternal();
-            Assert.AreEqual(0.5f,acts[0].runTime);
+            Assert.AreEqual(0.5f, getActionTimer(0).runTime);
             state.Start();
             Assert.AreNotSame(mat, state.matchine);
         }
+
+        private Timer getActionTimer(int index)
+        {
+            return state.matchine.GetState<SkillActionState>(index.ToEnum()).timer;
+        }
+
         [Test]
         public void testSkillOnePass()
         {
             input.isAttact = false;
             for (int i = 0; i < 4; i++)
             {
-                Assert.AreEqual(i * 0.5f, acts[0].runTime);
+                Assert.AreEqual(i * 0.5f, getActionTimer(0).runTime);
                 Assert.IsFalse(state.isFinish());
-                Assert.AreEqual(0, acts[1].runTime);
+                Assert.AreEqual(0, getActionTimer(1).runTime);
                 state.RunInternal();
             }
-            Assert.AreEqual(2, acts[0].runTime);
-            Assert.AreEqual(0, acts[1].runTime);
+            Assert.AreEqual(2, getActionTimer(0).runTime);
+            Assert.AreEqual(0, getActionTimer(1).runTime);
             Assert.IsTrue(state.isFinish());
         }
         [Test]
@@ -98,8 +105,8 @@ namespace UnitTest.StateTest
             {
                 state.RunInternal();
             }
-            Assert.AreEqual(2, acts[0].runTime);
-            Assert.AreEqual(0, acts[1].runTime);
+            Assert.AreEqual(2, getActionTimer(0).runTime);
+            Assert.AreEqual(0, getActionTimer(1).runTime);
             Assert.IsFalse(state.isFinish());
             for (int i = 0; i < 3; i++)
             {
@@ -107,7 +114,7 @@ namespace UnitTest.StateTest
             }
             input.isAttact = false;
             state.RunInternal();
-            Assert.AreEqual(2, acts[1].runTime);
+            Assert.AreEqual(2, getActionTimer(1).runTime);
             Assert.IsTrue(state.isFinish());
         }
         [Test]
@@ -119,11 +126,11 @@ namespace UnitTest.StateTest
                 state.RunInternal();
             }
             Assert.IsFalse(state.isFinish());
-            Assert.AreEqual(0, acts[0].runTime);
-            Assert.AreEqual(2, acts[1].runTime);
+            Assert.AreEqual(0, getActionTimer(0).runTime);
+            Assert.AreEqual(2, getActionTimer(1).runTime);
             state.RunInternal();
-            Assert.AreEqual(0.5f, acts[0].runTime);
-            Assert.AreEqual(2, acts[1].runTime);
+            Assert.AreEqual(0.5f, getActionTimer(0).runTime);
+            Assert.AreEqual(2, getActionTimer(1).runTime);
             Assert.IsFalse(state.isFinish());
         }
     }

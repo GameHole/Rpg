@@ -11,8 +11,9 @@ namespace RPG
             matchine = new StateMatchine();
             for (int i = 0; i < actions.Count; i++)
             {
-                var state = new SkillActionState { timer = actions[i], id=i };
-                state.transations.Add(new TransitionToNextAction((i + 1) % actions.Count,actions[i]));
+                var state = new SkillActionState { id = i };
+                state.timer.duration = actions[i].duration;
+                state.transations.Add(new TransitionToNextAction((i + 1) % actions.Count, state.timer));
                 matchine.SetState(i.ToEnum(), state);
             }
             matchine.SetCharacter(character);
