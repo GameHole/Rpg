@@ -5,6 +5,8 @@ namespace RPG
     public class ActionClip
     {
         public float duration;
+        public int id;
+        public float hitTime;
     }
     public class SkillState : State, IFinisher
     {
@@ -15,8 +17,9 @@ namespace RPG
             matchine = new StateMatchine();
             for (int i = 0; i < actions.Count; i++)
             {
-                var state = new SkillActionState { id = i };
-                state.timer.duration = actions[i].duration;
+                var action = actions[i];
+                var state = new SkillActionState { id = action.id, hitTime=action.hitTime };
+                state.timer.duration = action.duration;
                 state.transations.Add(new TransitionToNextAction((i + 1) % actions.Count, state.timer));
                 matchine.SetState(i.ToEnum(), state);
             }

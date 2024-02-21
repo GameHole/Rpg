@@ -13,6 +13,11 @@ namespace UnitTest.StateTest
             base.set();
             acts = new ActionClip[2];
             TestFunction.LoadClips(state, acts);
+            for (int i = 0; i < acts.Length; i++)
+            {
+                acts[i].id = i + 1;
+                acts[i].hitTime = i * 0.1f;
+            }
             state.Start();
         }
         
@@ -51,14 +56,15 @@ namespace UnitTest.StateTest
             Assert.DoesNotThrow(() => hitter.Hit(new HitInfo { demage=1}));
         }
         [Test]
-        public void testSkillStates()
+        public void testActionStates()
         {
             var mat = state.matchine;
             for (int i = 0; i < acts.Length; i++)
             {
                 var state = mat.GetState<SkillActionState>(i.ToEnum());
-                Assert.AreEqual(acts[i].duration, state.timer.duration);
-                Assert.AreEqual(i, state.id);
+                Assert.AreEqual(2, state.timer.duration);
+                Assert.AreEqual(i+1, state.id);
+                Assert.AreEqual(i * 0.1f, state.hitTime);
                 Assert.AreSame(cha, state.character);
                 var taker = new TransitionTaker(state);
                 Assert.AreEqual(1, taker.TransitionCount);
