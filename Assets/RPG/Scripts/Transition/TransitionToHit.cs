@@ -8,9 +8,7 @@ namespace RPG
 
         public override bool isVailed()
         {
-            bool ret = character.hittable.value;
-            character.hittable.Reset();
-            return ret;
+            return character.hittable.value;
         }
     }
 }

@@ -4,11 +4,11 @@ namespace RPG
 {
     public class TransitionToDown : Transition
     {
-        public override Enum stateName => default;
+        public override Enum stateName => StateName.Down;
 
         public override bool isVailed()
         {
-            return false;
+            return character.down.value;
         }
     }
 }

@@ -175,5 +175,17 @@ namespace UnitTest
             tran.Switch();
             Assert.AreEqual("start ", log.log);
         }
+        [Test]
+        public void testTransitionToDown()
+        {
+            var tran = new TransitionToDown();
+            Assert.AreEqual(StateName.Down, tran.stateName);
+            tran.SetCharacter(cha);
+            cha.down.Set();
+            for (int i = 0; i < 2; i++)
+            {
+                Assert.AreEqual(i == 0, tran.isVailed());
+            }
+        }
     }
 }

@@ -25,7 +25,7 @@ namespace RPG
         public DeltaTime deltaTime { get; }
         public StateMatchine matchine { get; } = new StateMatchine();
         public AAnimator animator { get; }
-        public Hittable hittable { get; set; } = new Hittable();
+        public Trigger hittable { get; set; } = new Trigger();
         public IHitter hitter { get; set; }
         public Hitter defaultHitter { get; }
 
@@ -34,7 +34,7 @@ namespace RPG
         public int hp { get; set; } = 2;
         public int defense { get;set; }
         public int strength { get; set; }
-        public Hittable down { get; set; } = new Hittable();
+        public Trigger down { get; set; } = new Trigger();
 
         public Character(IInput input, AAnimator anim, DeltaTime deltaTime)
         {

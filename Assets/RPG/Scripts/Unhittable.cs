@@ -1,6 +1,6 @@
 ﻿namespace RPG
 {
-    public class Unhittable:Hittable
+    public class Unhittable:Trigger
     {
         public override void Set() { }
     }
