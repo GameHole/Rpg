@@ -3,14 +3,13 @@
     public class SkillActionState:AWaitingState
     {
         public ActionClip clip { get; set; }
-        public TargetFilter targetFilter { get; set; } = new TargetFilter();
         private bool isHit;
         public override void RunInternal()
         {
             base.RunInternal();
             if (!isHit&&timer.runTime >= clip.hitTime)
             {
-                foreach (var item in targetFilter.FindTargets())
+                foreach (var item in clip.targetFilter.FindTargets())
                 {
                     var damage = character.attact - item.defense;
                     item.Hit(new HitInfo { demage = damage });

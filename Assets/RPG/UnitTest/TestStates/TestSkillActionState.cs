@@ -36,7 +36,7 @@ namespace UnitTest.StateTest
             state.timer.duration = 2;
             var filter = new TestingTargetFilter();
             clip.hitTime = 1;
-            state.targetFilter = filter;
+            clip.targetFilter = filter;
             for (int c = 0; c < 2; c++)
             {
                 cha.attact = 10;
