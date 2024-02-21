@@ -38,6 +38,15 @@ namespace UnitTest.StateTest
             hitter.Hit(new HitInfo { demage = 1 });
             Assert.AreEqual(9, cha.hp);
             Assert.IsTrue(cha.hittable.value);
+            Assert.IsFalse(cha.down.value);
+        }
+        [Test]
+        public void testHitDown()
+        {
+            var hitter = new Hitter(cha);
+            hitter.Hit(new HitInfo { demage = 1, down=true });
+            Assert.IsTrue(cha.hittable.value);
+            Assert.IsTrue(cha.down.value);
         }
         [Test]
         public void testNoneHitter()

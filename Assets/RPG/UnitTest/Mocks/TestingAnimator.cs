@@ -50,5 +50,10 @@ namespace UnitTest
         {
             log += "breakdefense";
         }
+
+        public override void Down()
+        {
+            log += "down";
+        }
     }
 }

@@ -11,5 +11,6 @@
         public abstract void Defense();
         public abstract void DefenseHit();
         public abstract void BreakDefense();
+        public abstract void Down();
     }
 }

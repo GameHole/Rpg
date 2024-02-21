@@ -67,6 +67,7 @@ namespace UnitTest
                 new TestStateTransition(StateName.Hit,new ITransitionAssert[]
                 {
                     new AssertType(typeof(TransitionToDead)),
+                    new AssertType(typeof(TransitionToDown)),
                     new AssertType(typeof(TransitionToHit)),
                     new AssertFinisher()
                 }),
@@ -86,7 +87,12 @@ namespace UnitTest
                 }),
                 new TestStateTransition(StateName.BreakDefense,new ITransitionAssert[]
                 {
-                    new AssertType( typeof(TransitionToDead)),
+                    new AssertType(typeof(TransitionToDead)),
+                    new AssertFinisher()
+                }),
+                new TestStateTransition(StateName.Down,new ITransitionAssert[]
+                {
+                    new AssertType(typeof(TransitionToDead)),
                     new AssertFinisher()
                 })
             };

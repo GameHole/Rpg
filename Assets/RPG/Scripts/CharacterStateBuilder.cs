@@ -28,6 +28,7 @@ namespace RPG
             skill.transations.Add(new TransitionToIdle());
             var hit = new HitState();
             hit.transations.Add(new TransitionToDead());
+            hit.transations.Add(new TransitionToDown());
             hit.transations.Add(new TransitionToHit());
             hit.transations.Add(new FinishTransition(StateName.Idle, hit.timer));
             var dead = new DeadState();
@@ -41,6 +42,10 @@ namespace RPG
             var breakDefense = new BreakDefenseState();
             breakDefense.transations.Add(new TransitionToDead());
             breakDefense.transations.Add(new FinishTransition(StateName.Idle, breakDefense.timer));
+            var down = new DownState();
+            down.transations.Add(new TransitionToDead());
+            down.transations.Add(new FinishTransition(StateName.Idle, down.timer));
+            
             matchine.SetState(StateName.Idle, idle);
             matchine.SetState(StateName.Move, move);
             matchine.SetState(StateName.Skill, skill);
@@ -49,6 +54,7 @@ namespace RPG
             matchine.SetState(StateName.Revive, revive);
             matchine.SetState(StateName.Defense, defense);
             matchine.SetState(StateName.BreakDefense, breakDefense);
+            matchine.SetState(StateName.Down, down);
             matchine.SetCharacter(cha);
             toIdle.Switch();
         }

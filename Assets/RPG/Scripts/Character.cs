@@ -10,12 +10,14 @@ namespace RPG
         Dead,
         Revive,
         Defense,
-        BreakDefense
+        BreakDefense,
+        Down
     }
     public class HitInfo
     {
         public int demage;
         public Vector3 hitPoint;
+        public bool down;
     }
     public class Character 
     {
@@ -32,6 +34,7 @@ namespace RPG
         public int hp { get; set; } = 2;
         public int defense { get;set; }
         public int strength { get; set; }
+        public Hittable down { get; set; } = new Hittable();
 
         public Character(IInput input, AAnimator anim, DeltaTime deltaTime)
         {

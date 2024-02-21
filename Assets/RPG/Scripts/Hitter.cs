@@ -18,14 +18,15 @@ namespace RPG
         public virtual void Hit(HitInfo info)
         {
             cha.hittable.Set();
+            if (info.down)
+            {
+                cha.down.Set();
+            }
             cha.hp -= info.demage;
         }
     }
-    public class NoneHitter : Hitter
+    public class NoneHitter : IHitter
     {
-        public NoneHitter() : base(null)
-        {
-        }
-        public override void Hit(HitInfo v) { }
+        public void Hit(HitInfo v) { }
     }
 }
