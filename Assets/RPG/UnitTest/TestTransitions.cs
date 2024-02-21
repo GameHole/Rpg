@@ -152,5 +152,28 @@ namespace UnitTest
                 Assert.AreEqual(i == 0, tran.isVailed());
             }
         }
+        [Test]
+        public void testTransitionNextAction()
+        {
+            var mat = new StateMatchine();
+            var timer = new Timer { duration = 1 };
+            var tran = new TransitionToNextAction(1, timer);
+            var log = new LogState();
+            mat.SetState(1.ToEnum(), log);
+            tran.SetCharacter(cha);
+            tran.SetMatchine(mat);
+            Assert.AreEqual(1.ToEnum(), tran.stateName);
+            for (int i = 0; i < 2; i++)
+            {
+                input.isAttact = i == 0;
+                for (int j = 0; j < 2; j++)
+                {
+                    timer.Update(0.5f);
+                    Assert.AreEqual(i == 0 && j == 1, tran.isVailed());
+                }
+            }
+            tran.Switch();
+            Assert.AreEqual("start ", log.log);
+        }
     }
 }

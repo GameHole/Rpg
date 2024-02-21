@@ -7,23 +7,31 @@ using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
 
-namespace UnitTest
+namespace UnitTest.StateTest
 {
-    internal class TestDefenseHit:StateTesting
+    internal class TestDefenseState:StateTest<DefenseState>
     {
         private LogHitter hitter;
-        private DefenseState state;
-
-        [SetUp]
         public override void set()
         {
-            state = new DefenseState();
             base.set();
             hitter = new LogHitter();
             cha.hitter = hitter;
-            state.SetCharacter(cha);
             state.Start();
             state.ranger = new TestingRanger();
+        }
+        [Test]
+        public void test()
+        {
+            anim.log = null;
+            var hitter = new NoneHitter();
+            cha.hitter = hitter;
+            state.Start();
+            Assert.AreEqual("defense", anim.log);
+            Assert.AreSame(cha.hitter, state);
+            Assert.AreSame(hitter, state.hitter);
+            state.End();
+            Assert.AreSame(hitter, cha.hitter);
         }
         [Test]
         public void testStateHitOutOfRange()

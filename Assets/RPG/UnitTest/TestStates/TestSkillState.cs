@@ -1,42 +1,25 @@
 ﻿using NUnit.Framework;
 using RPG;
 
-namespace UnitTest
+namespace UnitTest.StateTest
 {
-    internal class TestSkill:StateTesting
+    internal class TestSkillState:StateTest<SkillState>
     {
         private Timer[] acts;
-        private SkillState skill;
 
         [SetUp]
         public override void set()
         {
             base.set();
-            skill = new SkillState();
-            skill.SetCharacter(cha);
             acts = new Timer[2];
             for (int i = 0; i < acts.Length; i++)
             {
                 acts[i] = new Timer() { duration = 2 };
-                skill.actions.Add(acts[i]);
+                state.actions.Add(acts[i]);
             }
-            skill.Start();
-        }
-        [Test]
-        public void testSkillActionState()
-        {
-            anim.log = null;
-            var state = new SkillActionState();
-            state.id = 1;
-            state.SetCharacter(cha);
-            var timer = new Timer();
-            state.timer = timer;
-            state.RunInternal();
-            Assert.AreEqual(0.5f, timer.runTime);
             state.Start();
-            Assert.AreEqual(0, timer.runTime);
-            Assert.AreEqual("atk1", anim.log);
         }
+        
         [Test]
         public void testHit()
         {
@@ -63,59 +46,9 @@ namespace UnitTest
             Assert.DoesNotThrow(() => hitter.Hit(new HitInfo { demage=1}));
         }
         [Test]
-        public void testSkillHit()
-        {
-            var state = new SkillActionState();
-            state.SetCharacter(cha);
-            var timer = new Timer() { duration = 2 };
-            state.timer = timer;
-            var filter = new TestingTargetFilter();
-            state.hitTime = 1;
-            state.targetFilter = filter;
-            for (int c = 0; c < 2; c++)
-            {
-                cha.attact = 10;
-                filter.target.hp = 10;
-                filter.target.defense = 1;
-                filter.target.log = null;
-                state.Start();
-                state.RunInternal();
-                Assert.IsNull(filter.target.log);
-                for (int i = 0; i < 4; i++)
-                {
-                    state.RunInternal();
-                    Assert.AreEqual("hit9", filter.target.log);
-                }
-            }
-           
-        }
-        [Test]
-        public void testTransitionNextAction()
-        {
-            var mat = new StateMatchine();
-            var timer = new Timer { duration = 1 };
-            var tran = new TransitionToNextAction(1, timer);
-            var log = new LogState();
-            mat.SetState(1.ToEnum(), log);
-            tran.SetCharacter(cha);
-            tran.SetMatchine(mat);
-            Assert.AreEqual(1.ToEnum(), tran.stateName);
-            for (int i = 0; i < 2; i++)
-            {
-                input.isAttact = i == 0;
-                for (int j = 0; j < 2; j++)
-                {
-                    timer.Update(0.5f);
-                    Assert.AreEqual(i == 0 && j == 1, tran.isVailed());
-                }
-            }
-            tran.Switch();
-            Assert.AreEqual("start ",log.log);
-        }
-        [Test]
         public void testSkillStates()
         {
-            var mat = skill.matchine;
+            var mat = state.matchine;
             for (int i = 0; i < acts.Length; i++)
             {
                 var state = mat.GetState<SkillActionState>(i.ToEnum());
@@ -128,10 +61,10 @@ namespace UnitTest
                 Assert.AreSame(acts[i], tran.finisher);
             }
             Assert.AreSame(mat.runingState, mat.GetState(0.ToEnum()));
-            skill.RunInternal();
+            state.RunInternal();
             Assert.AreEqual(0.5f,acts[0].runTime);
-            skill.Start();
-            Assert.AreNotSame(mat, skill.matchine);
+            state.Start();
+            Assert.AreNotSame(mat, state.matchine);
         }
         [Test]
         public void testSkillOnePass()
@@ -140,13 +73,13 @@ namespace UnitTest
             for (int i = 0; i < 4; i++)
             {
                 Assert.AreEqual(i * 0.5f, acts[0].runTime);
-                Assert.IsFalse(skill.isFinish());
+                Assert.IsFalse(state.isFinish());
                 Assert.AreEqual(0, acts[1].runTime);
-                skill.RunInternal();
+                state.RunInternal();
             }
             Assert.AreEqual(2, acts[0].runTime);
             Assert.AreEqual(0, acts[1].runTime);
-            Assert.IsTrue(skill.isFinish());
+            Assert.IsTrue(state.isFinish());
         }
         [Test]
         public void testSkillTwoPass()
@@ -154,19 +87,19 @@ namespace UnitTest
             input.isAttact = true;
             for (int i = 0; i < 4; i++)
             {
-                skill.RunInternal();
+                state.RunInternal();
             }
             Assert.AreEqual(2, acts[0].runTime);
             Assert.AreEqual(0, acts[1].runTime);
-            Assert.IsFalse(skill.isFinish());
+            Assert.IsFalse(state.isFinish());
             for (int i = 0; i < 3; i++)
             {
-                skill.RunInternal();
+                state.RunInternal();
             }
             input.isAttact = false;
-            skill.RunInternal();
+            state.RunInternal();
             Assert.AreEqual(2, acts[1].runTime);
-            Assert.IsTrue(skill.isFinish());
+            Assert.IsTrue(state.isFinish());
         }
         [Test]
         public void testSkillLoop()
@@ -174,15 +107,15 @@ namespace UnitTest
             input.isAttact = true;
             for (int i = 0; i < 8; i++)
             {
-                skill.RunInternal();
+                state.RunInternal();
             }
-            Assert.IsFalse(skill.isFinish());
+            Assert.IsFalse(state.isFinish());
             Assert.AreEqual(0, acts[0].runTime);
             Assert.AreEqual(2, acts[1].runTime);
-            skill.RunInternal();
+            state.RunInternal();
             Assert.AreEqual(0.5f, acts[0].runTime);
             Assert.AreEqual(2, acts[1].runTime);
-            Assert.IsFalse(skill.isFinish());
+            Assert.IsFalse(state.isFinish());
         }
     }
 }

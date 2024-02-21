@@ -61,5 +61,16 @@ namespace UnitTest
             test.Switch();
             Assert.AreEqual("start run transition end start run transition ", test.state.log);
         }
+        [Test]
+        public void testTimer()
+        {
+            var timer = new Timer { duration = 1 };
+            for (int i = 0; i < 2; i++)
+            {
+                timer.Update(0.5f);
+                Assert.AreEqual(0.5 * (i + 1), timer.runTime);
+                Assert.AreEqual(i == 1, timer.isFinish());
+            }
+        }
     }
 }
