@@ -80,7 +80,8 @@ namespace UnitTest
                     new AssertFinisher()
                 }),
                 new TestStateTransition(StateName.Defense,new ITransitionAssert[]
-                {
+                { 
+                    new AssertType(typeof(TransitionToDead)),
                     new AssertType(typeof(TransitionToBreakDefense)),
                     new AssertType(typeof(TransitionToSkill)),
                     new AssertType(typeof(TransitionDefenseToIdle))

@@ -62,6 +62,26 @@ namespace UnitTest
             Assert.AreEqual("idle defense breakdefense dead ", anim.log);
         }
         [Test]
+        public void testDownToDead()
+        {
+            var state = matchine.GetState<DownState>(StateName.Down);
+            state.timer.duration = 1;
+            cha.Hit(new HitInfo {  demage=1, down=true});
+            matchine.Update();
+            cha.hp = 0;
+            matchine.Update();
+            Assert.AreEqual("idle hit down dead ", anim.log);
+        }
+        [Test]
+        public void testDefenseToDead()
+        {
+            input.isDefense = true;
+            matchine.Update();
+            cha.hp = 0;
+            matchine.Update();
+            Assert.AreEqual("idle defense dead ", anim.log);
+        }
+        [Test]
         public void testDeadToIdle()
         {
             var state = matchine.GetState<ReviveState>(StateName.Revive);

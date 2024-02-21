@@ -36,6 +36,7 @@ namespace RPG
             var revive = new ReviveState();
             revive.transations.Add(new FinishTransition(StateName.Idle, revive.timer));
             var defense = new DefenseState();
+            defense.transations.Add(new TransitionToDead());
             defense.transations.Add(new TransitionToBreakDefense());
             defense.transations.Add(new TransitionToSkill());
             defense.transations.Add(new TransitionDefenseToIdle());
