@@ -6,55 +6,28 @@ using UnityEngine;
 using UnityEngine.TestTools;
 namespace UnitTest
 {
-    public class TestCharaterFunction
+    class TestStateFunction: TestFunction
     {
-        private TestingAnimator anim;
-        private TestingActionInput input;
-        private TestDeltaTime deltaTime;
-        private Character cha;
-        private StateMatchine matchine;
-        private Timer[] acts;
-
-        [SetUp]
-        public void set()
-        {
-            anim = new TestingAnimator();
-            input = new TestingActionInput();
-            deltaTime = new TestDeltaTime();
-            cha = new Character(input, anim, deltaTime);
-            matchine = cha.matchine;
-            var builder = new CharacterStateBuilder();
-            builder.Build(cha);
-            deltaTime._value = 0.5f;
-            var state = cha.matchine.GetState<SkillState>(StateName.Skill);
-            acts = new Timer[2];
-            for (int i = 0; i < acts.Length; i++)
-            {
-                acts[i] = new Timer() { duration = 2 };
-                state.actions.Add(acts[i]);
-            }
-        }
-       
         [Test]
         public void testAnimator()
         {
             for (int i = 0; i < 2; i++)
             {
                 cha.Update();
-                Assert.AreEqual("idle", anim.log);
+                Assert.AreEqual("idle ", anim.log);
             }
             input.moveDir = new Vector2(0.1f, 0);
             for (int i = 0; i < 2; i++)
             {
                 cha.Update();
-                Assert.AreEqual("idlemove", anim.log);
+                Assert.AreEqual("idle move ", anim.log);
             }
             input.moveDir = new Vector2(0, 0);
             cha.Update();
-            Assert.AreEqual("idlemoveidle", anim.log);
+            Assert.AreEqual("idle move idle ", anim.log);
             input.moveDir = new Vector2(0.1f, 0);
             cha.Update();
-            Assert.AreEqual("idlemoveidlemove", anim.log);
+            Assert.AreEqual($"{anim.Str("idle")}{anim.Str("move")}{anim.Str("idle")}{anim.Str("move")}", anim.log);
         }
         [Test]
         public void testDefault()
@@ -89,7 +62,7 @@ namespace UnitTest
                 anim.log = null;
                 input.isAttact = true;
                 cha.Update();
-                Assert.AreEqual("atk0", anim.log);
+                Assert.AreEqual("atk0 ", anim.log);
                 Assert.AreEqual(typeof(SkillState), matchine.runingState.GetType());
                 input.isAttact = false;
                 cha.Update();
@@ -104,7 +77,7 @@ namespace UnitTest
             input.moveDir = new Vector2(1, 0);
             input.isAttact = true;
             cha.Update();
-            Assert.AreEqual("idleatk0", anim.log);
+            Assert.AreEqual($"{anim.Str("idle")}{anim.Str("atk0")}", anim.log);
             Assert.AreEqual(typeof(SkillState), matchine.runingState.GetType());
         }
         [Test]
@@ -119,7 +92,7 @@ namespace UnitTest
                 cha.Update();
                 input.isAttact = true;
                 cha.Update();
-                Assert.AreEqual("atk0", anim.log);
+                Assert.AreEqual(anim.Str("atk0"), anim.log);
                 Assert.AreEqual(typeof(SkillState), matchine.runingState.GetType());
                 input.isAttact = false;
                 cha.Update();

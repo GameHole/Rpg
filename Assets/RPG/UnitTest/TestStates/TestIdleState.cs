@@ -14,7 +14,7 @@ namespace UnitTest.StateTest
         public void test()
         {
             state.Start();
-            Assert.AreEqual("idle", anim.log);
+            Assert.AreEqual(anim.Str("idle"), anim.log);
         }
     }
 }

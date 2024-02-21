@@ -14,7 +14,7 @@ namespace UnitTest.StateTest
         public void testDeadState()
         {
             state.Start();
-            Assert.AreEqual("dead", anim.log);
+            Assert.AreEqual(anim.Str("dead"), anim.log);
             Assert.AreEqual(typeof(NoneHitter), cha.hitter.GetType());
         }
     }

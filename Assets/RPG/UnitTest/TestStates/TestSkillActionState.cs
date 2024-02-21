@@ -20,7 +20,7 @@ namespace UnitTest.StateTest
             Assert.AreEqual(0.5f, timer.runTime);
             state.Start();
             Assert.AreEqual(0, timer.runTime);
-            Assert.AreEqual("atk1", anim.log);
+            Assert.AreEqual(anim.Str("atk1"), anim.log);
         }
         [Test]
         public void testHit()

@@ -16,7 +16,7 @@ namespace UnitTest.StateTest
         {
             input.moveDir = new Vector2(0.1f, 0);
             state.Start();
-            Assert.AreEqual("move", anim.log);
+            Assert.AreEqual(anim.Str("move"), anim.log);
             for (int i = 0; i < 2; i++)
             {
                 state.RunInternal();

@@ -17,7 +17,7 @@ namespace UnitTest.StateTest
             Assert.AreEqual(0.5f, state.timer.runTime);
             state.Start();
             Assert.AreEqual(0, state.timer.runTime);
-            Assert.AreEqual("breakdefense", anim.log);
+            Assert.AreEqual(anim.Str("breakdefense"), anim.log);
         }
     }
 }

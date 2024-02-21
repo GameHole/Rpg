@@ -15,7 +15,7 @@ namespace UnitTest.StateTest
         {
             state.Start();
             Assert.AreEqual(typeof(NoneHitter), cha.hitter.GetType());
-            Assert.AreEqual("down", anim.log);
+            Assert.AreEqual(anim.Str("down"), anim.log);
             state.End();
             Assert.AreSame(cha.hitter, cha.defaultHitter);
         }

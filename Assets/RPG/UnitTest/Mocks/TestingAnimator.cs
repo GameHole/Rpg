@@ -1,4 +1,5 @@
 ﻿using RPG;
+using System;
 
 namespace UnitTest
 {
@@ -8,52 +9,62 @@ namespace UnitTest
 
         public override void Idle()
         {
-            log += "idle";
+            AppendName("idle");
+        }
+
+        private void AppendName(string name)
+        {
+            log += Str(name);
         }
 
         public override void Move()
         {
-            log += "move";
+            AppendName("move");
         }
 
         public override void Attact(int id)
         {
-            log += $"atk{id}";
+            AppendName($"atk{id}");
         }
 
         public override void Hit()
         {
-            log += "hit";
+            AppendName("hit");
         }
 
         public override void Dead()
         {
-            log += "dead";
+            AppendName("dead");
         }
 
         public override void Revive()
         {
-            log += "revive";
+            AppendName("revive");
         }
 
         public override void Defense()
         {
-            log += "defense";
+            AppendName("defense");
         }
 
         public override void DefenseHit()
         {
-            log += "defenseHit";
+            AppendName("defenseHit");
         }
 
         public override void BreakDefense()
         {
-            log += "breakdefense";
+            AppendName("breakdefense");
         }
 
         public override void Down()
         {
-            log += "down";
+            AppendName("down");
+        }
+
+        internal string Str(string v)
+        {
+            return v + " ";
         }
     }
 }

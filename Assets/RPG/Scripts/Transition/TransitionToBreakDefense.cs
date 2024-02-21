@@ -5,10 +5,15 @@ namespace RPG
     public class TransitionToBreakDefense : Transition
     {
         public override Enum stateName => StateName.BreakDefense;
-
+        private int strength = 0;
         public override bool isVailed()
         {
-            return character.strength == 0;
+            if (strength != character.strength)
+            {
+                strength = character.strength;
+                return strength == 0;
+            }
+            return false;
         }
     }
 }

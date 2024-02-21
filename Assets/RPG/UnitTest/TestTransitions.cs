@@ -146,11 +146,14 @@ namespace UnitTest
             var tran = new TransitionToBreakDefense();
             tran.SetCharacter(cha);
             Assert.AreEqual(StateName.BreakDefense, tran.stateName);
-            for (int i = 0; i < 2; i++)
-            {
-                cha.strength = i;
-                Assert.AreEqual(i == 0, tran.isVailed());
-            }
+            cha.strength = 0;
+            Assert.IsFalse(tran.isVailed());
+            cha.strength = 1;
+            Assert.IsFalse(tran.isVailed());
+            cha.strength = 0;
+            Assert.IsTrue(tran.isVailed());
+            cha.strength = 0;
+            Assert.IsFalse(tran.isVailed());
         }
         [Test]
         public void testTransitionNextAction()

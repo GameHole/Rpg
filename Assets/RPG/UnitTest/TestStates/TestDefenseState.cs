@@ -27,7 +27,7 @@ namespace UnitTest.StateTest
             var hitter = new NoneHitter();
             cha.hitter = hitter;
             state.Start();
-            Assert.AreEqual("defense", anim.log);
+            Assert.AreEqual(anim.Str("defense"), anim.log);
             Assert.AreSame(cha.hitter, state);
             Assert.AreSame(hitter, state.hitter);
             state.End();
@@ -50,7 +50,7 @@ namespace UnitTest.StateTest
             for (int i = 0; i < 9; i++)
             {
                 state.Hit(hit);
-                hitStr += "defenseHit";
+                hitStr +=anim.Str( "defenseHit");
                 Assert.AreEqual(hitStr, anim.log);
                 Assert.AreEqual(1, cha.hp);
                 Assert.AreEqual(9 - i, cha.strength);

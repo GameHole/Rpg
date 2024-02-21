@@ -17,7 +17,7 @@ namespace UnitTest.StateTest
             state.RunInternal();
             Assert.AreEqual(0.5f, state.timer.runTime);
             state.Start();
-            Assert.AreEqual("revive", anim.log);
+            Assert.AreEqual(anim.Str("revive"), anim.log);
             Assert.AreEqual(0, state.timer.runTime);
             state.End();
             Assert.AreSame(cha.hitter, cha.defaultHitter);

@@ -14,7 +14,7 @@ namespace UnitTest.StateTest
         public void testHit()
         {
             state.Start();
-            Assert.AreEqual("hit", anim.log);
+            Assert.AreEqual(anim.Str("hit"), anim.log);
         }
     }
 }
