@@ -2,9 +2,13 @@
 
 namespace RPG
 {
+    public class ActionClip
+    {
+        public float duration;
+    }
     public class SkillState : State, IFinisher
     {
-        public List<Timer> actions { get; } = new List<Timer>();
+        public List<ActionClip> actions { get; } = new List<ActionClip>();
         public StateMatchine matchine { get; private set; }
         public override void Start()
         {

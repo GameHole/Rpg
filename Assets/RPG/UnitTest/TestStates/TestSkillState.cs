@@ -5,18 +5,14 @@ namespace UnitTest.StateTest
 {
     internal class TestSkillState:StateTest<SkillState>
     {
-        private Timer[] acts;
+        private ActionClip[] acts;
 
         [SetUp]
         public override void set()
         {
             base.set();
-            acts = new Timer[2];
-            for (int i = 0; i < acts.Length; i++)
-            {
-                acts[i] = new Timer() { duration = 2 };
-                state.actions.Add(acts[i]);
-            }
+            acts = new ActionClip[2];
+            TestFunction.LoadClips(state, acts);
             state.Start();
         }
         

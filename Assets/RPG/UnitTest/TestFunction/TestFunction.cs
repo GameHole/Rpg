@@ -4,7 +4,7 @@ namespace UnitTest
     class TestFunction : StateTesting
     {
         public StateMatchine matchine;
-        public Timer[] acts;
+        public ActionClip[] acts;
 
         public override void set()
         {
@@ -13,10 +13,15 @@ namespace UnitTest
             var builder = new CharacterStateBuilder();
             builder.Build(cha);
             var state = cha.matchine.GetState<SkillState>(StateName.Skill);
-            acts = new Timer[2];
+            acts = new ActionClip[2];
+            LoadClips(state, acts);
+        }
+
+        public static void LoadClips(SkillState state, ActionClip[] acts)
+        {
             for (int i = 0; i < acts.Length; i++)
             {
-                acts[i] = new Timer() { duration = 2 };
+                acts[i] = new ActionClip() { duration = 2 };
                 state.actions.Add(acts[i]);
             }
         }
