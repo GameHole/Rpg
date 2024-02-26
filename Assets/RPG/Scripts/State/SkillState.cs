@@ -8,6 +8,7 @@ namespace RPG
         public int id;
         public float hitTime;
         public TargetFilter targetFilter = new TargetFilter();
+        public float backTime;
     }
     public class SkillState : State, IFinisher
     {
